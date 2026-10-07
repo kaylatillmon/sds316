@@ -1,0 +1,62 @@
+``` {python}
+import pandas as pd
+from pyprojroot import here 
+
+#loading the data sets
+file_path = here("/Users/kaylatillmon/Desktop/sds316/projects/kaylas-deliverable2/_data/populations_states.csv")
+
+incarerated_pop = pd.read_csv(file_path)
+
+# what do the first 10 rows look like?
+incarerated_pop.head()
+
+# just wondering what columns exist in the dataframe
+incarerated_pop.columns
+
+# just wondering the how many cols and rows there are
+incarerated_pop.shape
+# now onto my first question: what states are represented in the data frame
+incarerated_pop['state'].unique()
+# okay so we can see that all 50 states are represented, Fedeeral and DC are not technically states so I need to think about how to exclude that in my analysis. 
+
+# need to know what year range this data set contains so my other data sets can follow / are consistent with these values
+
+# second question: what range does this data set contain
+min_year_incar_pop = incarerated_pop['date'].min()
+max_year_incar_pop = incarerated_pop['date'].max()
+
+print(max_year_incar_pop, min_year_incar_pop)
+
+#okay so this data ranges from 1990 to 2022. if i decide to use this dataset, my other data sets should be around the same period ... or maybe I can look at one year or one range of year specifically. I don't know yet. 
+
+# I noticed when I was looking at head, shape, and columns that there's data vs inferred, i should probably look at how much of this data is inferred vs well ... data, for my research, I want as much concrete data as possible so I would probably like to remove the inferred data. 
+
+# my third question is just that, how much of this data is inferred vs raw. 
+print(incarerated_pop['data_or_inferred'].value_counts())
+
+# okay so more raw data than inferred ... that's good and I would still be able to work with a good bit of data even if inferred is removed which is good to know. 
+
+# My last question is which 10 states have the largest Black incarcerated populations, on average?
+largest_black_population = incarerated_pop.groupby('state')['incarcerated_black'].mean().sort_values(ascending = False)
+
+print((largest_black_population).head(11))
+
+# this is across 1990 and 2022, I am not entirely sure if I want to do a speciifc year or a range of year, but just to see, let's cut it down to just 2022! 
+
+# to do this we have to do some light data cleaning since I saw that year is a string 
+incarerated_pop['date'] = pd.to_datetime(incarerated_pop['date'])
+
+most_recent_year = incarerated_pop[incarerated_pop['date'].dt.year == 2022]
+
+largest_black_population_2022 = most_recent_year.groupby('state')['incarcerated_black'].mean().sort_values(ascending = False)
+
+largest_black_population_2022.head(11)
+
+
+```
+
+okay, for this stage I found out that there are multiple observations for one year which is why I took an average. I need to figure out if that is what is right for my project or if I should take the most recent data. But I do think this dataset is useful and clean so I will continue working with it. 
+
+Other than that, we found out that the average Black incarerated population across multiple 2022 observations is highest in Texas, which also tracked with the highest average Black incarcerated population over multiple observations across 1990-2022, which was also Texas. 
+
+I do need to do some more data cleaning, but I did not want to clean too much during this round of EDA in case I hated the data set. 
