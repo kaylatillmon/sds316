@@ -60,3 +60,81 @@ okay, for this stage I found out that there are multiple observations for one ye
 Other than that, we found out that the average Black incarerated population across multiple 2022 observations is highest in Texas, which also tracked with the highest average Black incarcerated population over multiple observations across 1990-2022, which was also Texas. 
 
 I do need to do some more data cleaning, but I did not want to clean too much during this round of EDA in case I hated the data set. 
+
+Question 5
+What happens to states when I remove inferred data?
+``` {python}
+# created a new df of just raw data in 2022 by filtering the data_or_inferred column in the most recent year df to raw data
+raw_2022 = most_recent_year[
+    most_recent_year['data_or_inferred'] == 'raw data'
+]
+
+raw_2022['state'].value_counts()
+```
+
+``` {python}
+# cross tab of state and raw data vs inferred data to see the count of raw v inferred data break down of states in 2022 
+pd.crosstab(
+    most_recent_year['state'],
+    most_recent_year['data_or_inferred']
+)
+```
+
+Okay, so maybe I should not remove inferred data, if I do, I would basically be removing two states: Virginia and Rhode Island, which maybe is not helpful for my comparison. Also, this shows how uneven the current spread of data is, so it's a methodical question of if I should remove inferred counts or not. For now, I will not. This does provide a clearer direction for my EDA, instead of looking at raw counts and averages, I should explore proportions.
+
+
+
+Question 6
+Which states had the highest proportion of Black incarceration in 2022, on average
+``` {python}
+#making a copy because I will be directly manipulating the df 
+most_recent_year = most_recent_year.copy()
+
+# creating the black proportion column
+most_recent_year['black_proportion'] = 
+# accessing the incarcerated black column and incarcerated total and dividing to get the proportion
+(most_recent_year['incarcerated_black'] /
+    most_recent_year['incarcerated_total']
+    ) 
+# creating a new df using the copy, grouping by state and filtered to black proportion and getting the mean of black proportion, then sorting it by highest to lowest
+black_proportion_2022 = most_recent_year.groupby('state')['black_proportion'].mean().sort_values(ascending = False)
+
+black_proportion_2022.head(10)
+
+```
+
+Oh wow, this changes the story a lot. When we take into account the states incarcerated population, the states that we saw earlier (Florida, Texas, California) are not in the top 10, including DC (which is not a state, I mentioned earlier on excluding it, but we'll save that for more formal data cleaning and based off of literature research since that's a methodology decision).
+
+What's interesting about this is that you can see both southern and northern states, so it isn't just southern states with higher incarcerated Black individuals.
+
+Question 7: How do white and black incarerated populations compare within each state
+
+``` {python}
+# same code, just replaced black with white
+most_recent_year = most_recent_year.copy()
+
+most_recent_year['white_proportion'] = (most_recent_year['incarcerated_white'] /
+    most_recent_year['incarcerated_total']
+    ) 
+
+# to compare race proportions in 2022, i grouped by state, and filtered to black and white proprotions to calculate the mean
+race_compare_2022 = most_recent_year.groupby('state')[['black_proportion', 'white_proportion']].mean()
+
+print(race_compare_2022)
+```
+
+Question 8:
+Within the top 10 states of Black incarceration, what are the incarceration rates for White individuals? 
+
+``` {python}
+# this lists the values from the top 10 states 
+race_compare_2022.loc[['District of Columbia',    
+'Maryland', 'Louisiana', 'New Jersey', 'South Carolina', 'Mississippi', 'Georgia', 'Delaware', 'Virginia', 'Illinois' ]]
+
+
+
+```
+
+Revealing results, if these proportions were similar then we'd see that there is not much of a difference, but a lot of these states have more than a .10 difference in incarcerated population proprtions which means there is a difference to investigate. We can see that this table is more southen heavy, but it  is interesting to see a Northern state up here such as New Jersey, and in my opinion, a culturally northern state such as Maryland. 
+
+Another interesting data point that actually might change my research question is DC ... there is such a big difference in the population that it could be worth it to specifically investigate that and why DC has such a disproportionate prison population, or maybe comparing the DMV in general, a region with very different black incarerated populations that could be worth exploring. 
