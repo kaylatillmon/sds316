@@ -1,0 +1,71 @@
+---
+title: Research Plan
+author: Kayla Tillmon
+execute:
+  code-fold: true
+---
+
+## Phase 1 Research Questions
+
+1. What are the differences and similarities of how Black individuals are treated within the legal system in the North vs. the South?
+2. What shaped this? 
+3. What systems are still in place? 
+
+## Personal Motivation
+I am a Black woman from the South and was born and raised there for 18 years, but for the past 4 years, I’ve resided up North and have spent more of the calendar year here than in Georgia. So I’ve had this unique relationship with both geographical locations. As I prepare for my post-graduate future, a big question that stays constant in my mind is, ‘where am I going to live?’ This leads to my motivation. I have heard and experienced many pros and cons of being a Black woman in the South vs the North, but how truly different are they? Does one geographical location truly treat Black individuals better? Now I don’t know if there is a true answer to this question and my research project is not about answering that question broadly. A question that can be representative (but should not be extrapolated as a conclusion) of the larger treatment of Black individuals in the North vs the South is through the legal system.  
+
+
+## Broader Relevance
+This topic is definitely something that affects other Black individuals, that is why there has been so many mass exodus’ from the North and the South respectively. How we are treated in the place we decide to reside in, is a matter of importance to us. I don’t think this is a revolutionary research question and there is research, literature, and pop culture references to the concept, but I want to come at it from a place of understanding why. I have spent 4 years listening, talking, and interacting with Northerners and I feel like there’s a disconnect in how they believe Black people are treated in the North vs the South and the reality. I want to examine how Black individuals are mistreated globally and that although there are real differences in treatment, the similarities matter too. 
+
+## Example Projects
+
+Link to three example projects that are related to your questions or how you'd like to display your results.  List them like so:
+
+Project 1: https://www.prisonpolicy.org/blog/2023/09/27/updated_race_data/
+The inspiration I will be taking from this project is comparing racial disparities by state. I don’t think just looking at imprisonment specifically is the route I want to take for my analysis (I want to focus on the legal system and imprisonment is a part of that legal system, but not the only component). I also want to use a similar data breakdown/comparison when I am defining treatment of Black individuals through comparing it to White people’s treatment.
+
+Project 2: https://openpolicing.stanford.edu/
+Inspiration I will be taking from this project is most likely the data itself and maybe similar methodologies. I think looking at how Black individuals are treated in different states even before they officially enter the legal system is a good way to go about answering my research question. 
+
+
+Project 3: https://www.law.berkeley.edu/library/legal-research/black-americans-and-the-law/
+What I like about this project is that they’re using categorical data; the history/introduction of these laws. I don’t want just to use quantitative data to answer my question, qualitative data is important too. A lens that I could look through that this project shows is tracing the development of the legal system South and the North through the laws itself. I think that analyzing the laws would be a great foundation to start my analysis.
+
+
+## Relevant Literature
+
+Build a **ten** item literature review for work related to your questions. 
+
+https://www.census.gov/programs-surveys/popest/about/glossary/geo-terms.html
+This is connected to my research because my entire project’s foundation depends on how I will end up defining the two geographical locations. There is no “government official” definition of those two regions for me to use, however the U.S Census does define it. I don’t know if I will be using this definition for my project, but if I do, I will have a good basis for it. 
+
+https://www.oah.org/tah/november-4/rethinking-the-role-of-the-courts-in-the-lives-of-black-southerners/
+This article is very interesting and connects to my research because it examines the role, relationship, and experience of the legal system regarding Black individuals in the south, but it does not go about just talking about Black voting rights. This is important because I don’t want my research to be narrowed to the “obvious” but instead, painting a holistic picture of how the  legal system was shaped and how that affects Black individuals today.
+
+https://journals.sagepub.com/doi/10.1177/1532673X19843714
+This article is connected to my research because it is an academic journal about how defining “the south” is more so about political trends and shifts than a geographical location. Although I will not be using a fluid definition of the south, it is important to recognize how regional definitions are not just the states that define them, but there are a lot of political ideologies, values, etc that go into how it's defined. Because my research is quantitative and I will be using regional definitions, I want my research to at least acknowledge that there’s more to that definition and this journal does a good job of laying that out. 
+
+
+https://www.un.org/en/chronicle/article/racial-discrimination-and-legal-system-recent-lessons-louisiana
+Although this article was written in 2007, so not as recent, it is still important in general, but also to my research. It’s important to read about real cases of discrimination especially in the legal system and how the environment itself contributes. There is not a law in Louisiana that outwardly says, “discriminate against Black individuals” and then that law not existing in Massachusetts, but the environment of these places contribute to the treatment of Black individuals which is exactly what my research is about. 
+
+https://www.vox.com/first-person/2017/10/31/16571238/black-man-deep-south-race
+This article is not about the legal system, but still details the experience of living in the south vs living somewhere else as Black person. This connects to my research because it’s important to understand the true experiences of Black people who have moved from somewhere that’s considered more “woke” (in his case, the Midwest) to the South, to then understand the structural reasons (such as the legal system) that influence those experiences. 
+
+https://lawreview.colorado.edu/wp-content/uploads/2023/03/15.-Higginbotham.pdf
+This law review essay connects to my research as it talks about the development of racial profiling, which is a data point that I will be analyzing through looking at the difference of traffic stops. This article talks about how racial profiling, as a concept, was used by the LAPD, but was actually introduced by a law in Virginia, a southern state (by my definition), within Hudgins v. Wright. This article definitely helps me understand the systems that shaped the legal system of the south and how that could affect the treatment of Black individuals today. 
+
+https://www.crmvet.org/comm/25coresn.htm
+This article is really interesting to me because although it is not about the legal system, but an organization, it talks about the differences and similarities to how that organization was run in the Northern states (in this article, the states outside of the confederacy) and the South (the confederate states). This connects to my research because I want to answer what similarities and differences exist in the legal system. It's good to also understand how these similarities and differences affect/exist in other systems, like national organizations. 
+
+https://www.ussc.gov/research/research-reports/2023-demographic-differences-federal-sentencing
+This research article is extremely connected to my research topic as it’s a quantitative study that looks at the demographic differences in federal sentencing. Federal sentencing is a data point that I want to examine because federal laws are the same throughout the country. This article confirms that Black and Hispanic males get sentenced more often than their white counterparts, but is there a geographical divide/difference? That is what I want my research to answer.   
+
+https://static1.squarespace.com/static/631b1bc54d4b3d277179851d/t/646cf9674e16115e6ddef152/1684863335171/Eason_Mapping+prison+proliferation.pdf
+This article is from my research cluster. When I was thinking about examining the differences in how Black individuals are treated within the legal system in the North v South, prison geography did not immediately come to mind, but after talking with my group and reading some of their literature, I realized that there could be a place for that in my own research question. There could be geographical differences in where prisons are built which could influence the regional similarities or differences in how Black individuals are treated within the legal space. 
+
+https://www.brennancenter.org/our-work/research-reports/prison-gerrymandering-distorts-representation
+Also did not think of looking at prison gerrymandering to help answer my question until the research clusters. This paper talks about prison gerrymandering and how when we count incarcerated people at the prisons (which are typically built in rural, white areas) instead of their home address distorts the legislative population. This is connected to my research question because this can help address what systems help shape the different experiences Black individuals face within the legal system as well as what systems are still in place today. 
+
+

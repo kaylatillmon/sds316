@@ -1,0 +1,20 @@
+---
+title: "Template Project - Stage 2"
+author: 
+  - "Kayla Tillmon"
+
+date: 2026-10-21
+description: "Index for Stage 2"
+categories: [Georgraphy-Group, DMV, Race, Incarceration, Data Anlaysis]  #  
+image: "images/images.jpeg"  # Required thumbnail for grid view - CHANGE THIS (this file does not exist )
+---
+
+## Project Overview
+
+My project is an investigation of the similarities and differences of how Black individuals are treated in the legal system, in different places: the DMV. The state of my project is finishing up Exploratory Data Analysis. I am currently exploring incarceration data within D.C., Maryland, and Virginia. I have got the incarcerated Black populations vs incarcerated White populations and now will be using other datasets and literature research to gather more of an understanding of hese statistics. My current ideas on how to gather this understanding is by analyzing exoneration rates by state and race, mass incarceration by state and race, types of arrest, federal sentencing to see if there’s a difference between sentencing by race by state, and traffic stops by race and state. 
+### Components
+Link to the files you've made!
+
+- [Research Plan](research-plan.qmd) 
+- [Exploratory Data Analysis](kayla-stage2.qmd)
+- [Initial draft writing & reflection](stage2-writing.qmd)
