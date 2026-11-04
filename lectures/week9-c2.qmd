@@ -1,0 +1,81 @@
+---
+title: "Upgrading our Visualizations"
+subtitle: "How to make our visualizations nice to look at"
+description: "A few tips on how to pick a good visualization, how to edit the visual appeal, and make them interesting!"
+author: "Hayden Steinmann"
+topics:
+- "Positron"
+- "Data Visualizations"
+categories: ["lab", "data viz"]
+format:
+  revealjs:
+    theme: [dracula, lab.scss]       
+    slide-number: true   # Displays slide numbers in the corner
+    transition: slide    # Clean slide transitions
+    controls: false       # Displays navigation controls on screen
+    highlight-style: dracula  # Matches syntax highlighting to the slide theme
+    code-line-numbers: true   # Adds line numbers to code blocks
+    code-copy: true           # Adds a 1-click "Copy" button for students
+    code-overflow: wrap       # Prevents long code lines from clipping off-screen
+    preview-links: auto       # OPENS LINKS IN AN IN-SLIDE POPUP OVERLAY!
+    scrollable: true          # Allows vertical scrolling if code output is tall
+
+---
+
+## Today's Plan
+
+-   Why visualization design matters
+
+-   Picking the right plot
+
+-   Styling controls
+
+## Importance
+
+A good visualization shouldn't be a puzzle. It should help the audience visually see the finding  
+
+It should be...  
+- Readable: title, labels, scales, text should be concise and use audience-friendly terminology  
+- Accurate: data should be represented honestly  
+- Purposeful: should answer some question and/or directly relate to the overall topic  
+- Focused: should highlight the important stuff, don't overdo it with the fun design things
+
+## Types of Plots
+
+Bar charts, scatterplots, histograms, line plots, etc. are GREAT plots but what about the the slightly more unique ones?
+
+- Sankey Diagram: shows flows between categories or stages; the width of each flow represents its magnitude; [plotly](https://plotly.com/python/sankey-diagram/)
+- Chlorepleth Map: shows geographic variation using shaded regions; [plotly express](https://plotly.com/python/choropleth-maps/)
+- Network Graph: shows connections and relationships between entities; #linearalgebra #nodes #edges; pyvis or [networkx](https://plotly.com/python/network-graphs/)
+- Heatmap: shows patterns across two categorical or ordered dimensions using color; can include a temporal element; [seaborn](https://seaborn.pydata.org/generated/seaborn.heatmap.html) or [plotly express](https://plotly.com/python/heatmaps/)
+
+*Helpful Packages for Maps: 'geopandas' (handles geometric shape files), 'geopy.geocoders import Nominatim' (OSM geocoding)
+
+## How to make it pretty
+Adjust:
+
+| `alpha` | Transparency (0 = invisible, 1 = opaque) | Overlapping points; dense scatterplots |
+| `linewidth` | Line thickness | Emphasize a trend line; de-emphasize gridlines |
+| `s` | Marker size in Matplotlib scatterplots | Make points visible without overwhelming the figure |
+| `edgecolor` | Marker outline | Separate overlapping points or improve contrast |
+| `figsize` | Figure dimensions | Make labels readable and match the final slide/page |
+| `color` / `hue` | Color or group mapping | Distinguish a small number of meaningful groups |
+| `bins` | Histogram bin count | Explore distribution shape; check whether conclusions are robust |
+.
+.
+. 
+The list goes on
+* Use '?' and 'help()' to see all the possible properties of a function!
+
+## Color and accessiblity
+
+- Use color to encode something meaningful (such as categorical variable), not just to decorate
+- Use a small, consistent palette; too many colors make comparisons harder
+- Don't rely on color alone—use labels, marker shapes, line styles, etc.
+- Make the most important element visually prominent; keep gridlines and borders subtle
+
+ACCESSIBILITY: is the figure still understandable in grayscale or for someone who may be color-blind?
+
+## Example
+
+If we have time I'll show a live demo of changing some things!

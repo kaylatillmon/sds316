@@ -1,0 +1,28 @@
+---
+title: Stage 2 Writing
+author: Reagan Gonzales
+execute:
+ code-fold: true
+---
+
+1.  What data did you think you'd find that you weren't able to find?
+
+When I first started this project, I was interested in understanding why some children are treated as adults in the criminal justice system. I wanted to investigate how race, age, gender, and offense severity influence whether a young person is charged as an adult. I couldn't find very detailed datasets on these stats, since children's personal identifying information is sensitive/restricted. However,instead I've found data that can help me understand young people from their own perspectives, which has become a more interesting direction for my project
+
+2.  What most surprised you about the data you've been working with?
+
+My biggest suprise so far is from the ??? dataset. For the question on if children felt heard by police, 35.67% of participants said they were allowed to tell none of their story, and the second highest response was participants who said they were allowed to tell all of their story. I thought this was an interesting contrast. It's the opposite ends of the spectrums and yet top 2 answers. I expected the responses to be more evenly distributed or to lean more heavily toward one side. Instead the results made me wonder why participants reported such different experiences
+
+3.  What questions do you still have? What would help you answer them?
+
+I still have questions about the relationships between young people's experiences with the justice system and their expectations for their futures. Do participants who feel heard by police and judges have different educational expectations from those who feel ignored? Do participant's perceptions of fairness change across interviews? Do their educational aspirations and expectations change as they get older? To answer these, I want to explore more of the procedural justice dataset. I also want to investigate whether I can connect responses across datasets using participant identifiers (join). This would allow me to compare participant's experiences instead of examining each question separately.
+
+I also need to account for missing data. The percentages I calculated for the first and last interviews suggest that educational aspirations and expectations may change over time, but the number of people answering questions also changes. Comparing the same participants across interviews would help me determine whether individual responses change or whether the differences are partly explained by who remains in the study
+
+4.  What story are you trying to tell with this data?
+
+I want to tell a story about what it means to be a young person navigating the criminal justice system while still imagining a future for yourself. I want to move beyond looking at young people only in terms of the crimes they committed and instead explore their identities, goals, expectations, and experiences with authority figures. So far, I've found that many participants value educational success, although their expectations do not always match their aspirations. I've also found that participants report very different experiences when interacting with police and judges. Some felt they had the opportunity to tell their story, while others felt they were not allowed to explain themselves at all. I don't yet know whether these experiences are connected, but I want to investigate that possibility. Ultimately, I hope to show that young people involved in the criminal justice system have their own perspectives, ambitions, and understandings of their experiences
+
+6.  How has your thinking changed since you first wrote your research question?
+
+Initially I was thinking of my questions from an outside perspective, like why are children charged as adults? who decides this? But as I explored datasets, I've found that it feels more meaningful to focus on children's personal experiences. I believe my approach offers a more personal and meaningful perspective on juvenile justice. Discussions about young offenders often focus on their crimes, the punishments they deserve, and whether they should be treated as adults. I want to look beyond these outside judgments and better understand the young people themselves. What are their hopes and expectations for the future? Do they feel heard and respected by the justice system? How do they understand their own experiences?

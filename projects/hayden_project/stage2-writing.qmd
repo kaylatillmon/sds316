@@ -1,0 +1,27 @@
+---
+title: Stage 2 Writing
+author: Hayden Steinmann
+execute:
+  code-fold: true
+---
+
+## Stage 2 Findings and Reflections
+
+1.  What data did you think you'd find that you weren't able to find?  
+Going into this assignment I thought I’d be able to find more data relating to juvenile arrests. After combing through lots of different sources, I learned that certain information is kept from the general public in order to support juvenile rehabilitation. 
+
+2.  What most surprised you about the data you've been working with?  
+I was most surprised by the extent of racial and socioeconomic disparities in school suspension rates. When looking at the median STS rate for Black students we saw their rate was nearly five times that of white students. Similarilly, economically disadvantages students had more than twice the median ISS and STS rates of non-economically disadvantaged students. I had a suspicion that these pattern's existed, but seeing the actual statistical values next to them made them much more staggering.
+
+3.  What questions do you still have? What would help you answer them?  
+Most of the questions I have now relate to the historical information surrounding the why behind suspension rates, demographic breakdowns, and geographic disparities. I want to explore the more qualitative parts of neighborhood characteristics, past/current policy, and how things have changed over time. I also want to see if I can find anything relating to funding info about CMS schools and am also considering comapring the geography of school demographics with the geographical demographics of Mecklenburg county as a whole. These are on my to-do list. While I wish I could look at more data surrounding juvenile arrests I understand that this data is not readily available. 
+
+4.  What story are you trying to tell with this data?  
+I'm trying to show the vast disparities that exist within CMS. Since Mecklenburg County is a relatively diverse area with a long history of segregation and political divide, I really want to dive into how this is felt by the people (specifically young-adults). I hope to identify patterns, raise questions, and show the historical implications that still exist.  
+
+5.  How do you think the insights you're discovering will be best presented? That is, what kinds of displays might be most effective for the story you're trying to tell?  
+I think a combination of statistical summaries, maps, and potential visualizations will be most helpful. Comparing things such as median values will clearly communicate the disparities that exist. I also think an interactive map of some sort will be useful in showing the clustering of schools within CMS. I haven't landed on a visualization that is completely finished but I think I have a few components that I want to combine. 
+
+6.  How has your thinking changed since you first wrote your research question?  
+Since I haven't been able to obtain data relating to the connection between school discipline and students' later involvement in the criminal legal system, I decided to shift my focus to one that looks at school-level patterns in disciplinary rates and law enforcement contact. My original research question(s) were quite ambitious, which I've now realized. I'm now in the process of narrowing and fine-tuning this direction, so that I can present and answer a data-driven question accurately. 
+

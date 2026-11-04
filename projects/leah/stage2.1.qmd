@@ -1,0 +1,125 @@
+---
+title: "Initial Questions"
+author: "Leah Levensailor"
+execute:
+  code-fold: true
+---
+
+# Stage 2.1: Initial Explorations of the Dataset.
+
+## About
+
+### Dataset
+The datasets I am exploring are [Flock Camera's Per State](https://flockscanner.com/flock-camera-map/), and [2024 Election Results Data](https://digitalcommons.bucknell.edu/election_data/2/).  It is stored in the `_data` folder.
+
+### Research Question
+My initial research question is pretty vague -- _"Is there an association between the 2024 Election Results and the support of Flock Cameras?"_ I am not too sure if this is where I want to go with this or if there is something more I can explore. 
+
+## First question: which states? 
+I first want to know where the flock cameras are showing up. Which states have the most flock cameras? 
+
+```{python}
+import pandas as pd
+from pyprojroot import here # this helps us navigate tricky path stuff between local runs and quarto builds
+
+# Load the data using here() with the path from the project root
+file_path_state = here("projects/leah/_data/flockperstate.csv")
+per_state_df = pd.read_csv(file_path_state, sep=',')  
+# removing the commas and making the column numeric 
+per_state_df["Flock Cameras"] = pd.to_numeric(per_state_df["Flock Cameras"].str.replace(",", ""))
+
+# sort the states in to descending order based on the flock camera number  
+sorted = per_state_df.sort_values(by=["Flock Cameras"], ascending=False)
+
+print(sorted.head(5))
+
+```
+
+Now I know the top five states with the most flock cameras. I can now focus my attention on these states in particular. 
+
+## Second Question: where?
+Before I move on with this line, I want to figure out where the cameras are placed within the states. Specifically what kind of establishments have the cameras on their property. For this, I am going to explore the private operators of Flock cameras. Who invests in flock cameras, meaning where within the states/cities are they found? 
+
+```{python}
+file_path_2 = here("projects/leah/_data/private-operators.csv")
+df2 = pd.read_csv(file_path_2, sep=',')  
+
+# removing the commas and making the column numeric 
+df2["Cameras"] = pd.to_numeric(df2["Cameras"].str.replace(",", ""))
+# same as above, sort the states in to descending order based on the flock camera number  
+sort = df2.sort_values(by=["Cameras"], ascending=False)
+
+print(sort.head(5))
+
+```
+
+The most popular places for a Flock Camera are Lowe's and The Home Depot by a landslide. What is happening at those stores that is requiring that much surveilance? Looking at the where column, I can see that the majoirty for both Lowe's and The Home Depot are in California. This is very intreging to me as California has the most cameras installed. I want to see where within California the cameras are concentrated. I am going to look deeper into California.
+
+## Third Question: Cities in California and political party?
+```{python}
+file_path_cities = here("projects/leah/_data/findingflock-cameras-by-city.csv")
+df_cities = pd.read_csv(file_path_cities, sep=',') 
+
+# Source - https://stackoverflow.com/a/17071908 
+#creating a subset of only the california cities 
+ca_only = df_cities.loc[df_cities['state'] == 'CA']
+#sorting the subset to find the top five cities with the most cameras 
+ca_sorted = ca_only.sort_values(by=["flock"], ascending=False)
+
+print(ca_sorted.head(5))
+
+```
+
+I wanted to see which cities had specifically flock cameras because there are some other ones on the market that I am not looking into. I am curious what political party these cities fall into, I have to find out which county they are first since my dataset containing the election results are sorted by county. I used this website [California Counties](https://attorneysearchnetwork.com/resources/cities.htm) to find my answers. 
+
+San Jose: Santa Clara County
+Oakland: Alameda County
+San Francisco: San Francisco County
+Los Angeles: Los Angeles County
+Santa Rosa: Sonoma County
+
+Now I can see which party won in the 2024 election within those counties. I know historically California is a very blue state so I am expecting the democratic party, in this case Kamala Harris, to be the winner. 
+
+```{python}
+file_path_election = here("projects/leah/_data/Presidential-Election-Results-by-US-County-2024.csv")
+df_election = pd.read_csv(file_path_election, sep=',')  
+
+# Source - https://stackoverflow.com/a/17071908 
+#I am new to python for data anaylsis so stack overflow has been my best friend! 
+# Here I want to only have the rows that are the five counties
+print(df_election.loc[df_election['COUNTY_NAME'].isin(['Santa Clara County','Alameda County', 'San Francisco County', 'Los Angeles County', 'Sonoma County' ])])
+```
+
+As I suspected the democratic party has won in the last three elections for all five of the counties. While doing my research, I am not entirely sure if that is the road I need to go down. There seems to be a bigger picture here that I am not uncovering. Another similarity that the five states have is four out of the five of them are southern states, with the top two boarding Mexico. With the uptick in ICE raids I am wondering if there is a reason Flock seems to be targeting California. I found some data on the distribution of immigrants per state to see if my hypothesis is true. 
+
+## Fourth Question: Immigration?
+```{python}
+file_path_immigration = here("projects/leah/_data/mpi-data-hub_immigrants_n-percent-us-population-by-state-2024.csv")
+df_immigration = pd.read_csv(file_path_immigration, sep=',')  
+# accidentally had 6000 extra empty lines from the excel file that I downloaded whoops!
+df_immigration = df_immigration.drop(df_immigration.index[52:6225])
+
+top_states = df_immigration.loc[df_immigration['State'].isin(['California','Texas', 'Florida', 'Georgia', 'Illinois' ])]
+print(top_states)
+print(df_immigration)
+```
+
+I want to be able to compare these reults with something so I am going to find the average Immigrant Share of Total State Population for all 50 states. There is a row for the whole United States already but I want the average of all individual states in 2024. 
+
+```{python}
+#i have to make the column numeric and take away the percent
+avg_immigration = df_immigration['Immigrant Share of Total State Population24'].str[:-1].astype(float)
+print(avg_immigration)
+
+```
+
+```{python}
+# I also have to take away the first row because that represents the entire United States
+avg_immigration = avg_immigration.iloc[1:]
+print(avg_immigration)
+
+# now I can find the average of the 50 states plus DC
+print(avg_immigration.mean())
+```
+
+After this calculation, I have found out that the national average percentage of the state population being immigrants is roughly 10.41%. Referring back to the top five states, all five of them had an immigrant share of total state population above 10.41%, with California being almost tripple with a share of 27.6%. Texas has a share of 23.1% which is over double the average. I do not believe this is a coincidence espceially since a common place to find work for undocumented people is the parking lots of The Home Depot and Lowe's. People will crowd around and wait for people to come pick up supplies and ask if they have any work they need done. I will be exploring this further in this next stage. 

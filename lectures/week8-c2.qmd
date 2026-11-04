@@ -1,0 +1,121 @@
+---
+title: "DATAVIZ"
+subtitle: "Seaborn + data = viz"
+description: "Building data visualizations with Seaborn" # appears in the lecture notes round up
+author: "Nikko Stevens"
+topics:
+- "topic 1"
+- "topic 2"
+categories: ["lab", "template"]
+format:
+  revealjs:
+    theme: [dracula, lab.scss]       
+    slide-number: true   # Displays slide numbers in the corner
+    transition: slide    # Clean slide transitions
+    controls: false       # Displays navigation controls on screen
+    highlight-style: dracula  # Matches syntax highlighting to the slide theme
+    code-line-numbers: true   # Adds line numbers to code blocks
+    code-copy: true           # Adds a 1-click "Copy" button for students
+    code-overflow: wrap       # Prevents long code lines from clipping off-screen
+    preview-links: auto       # OPENS LINKS IN AN IN-SLIDE POPUP OVERLAY!
+    scrollable: true          # Allows vertical scrolling if code output is tall
+
+---
+
+## Today's Plan
+
+-   Make sure EVERYONE knows how to build a data visualization
+-   (Using Seaborn)
+
+
+## By the end of today, you will (probably) know how to:
+- Install Seaborn
+- Use Seaborn to make a basic visualization
+- Be able to add visualizations to your research project.
+
+## Run it!
+This charts the amount of the tip,  the total bill,  if the person was a smoker or nonsmoker, and the size of the party. [see the tabular data](https://github.com/mwaskom/seaborn-data/blob/master/tips.csv)
+
+```{python}
+# Import seaborn
+import seaborn as sns
+
+# Apply the default theme
+sns.set_theme()
+sns.set_style('whitegrid')
+
+# Load an example dataset
+tips = sns.load_dataset("tips")
+# Note, you could also load this from your dataframe!
+
+# Create a visualization
+sns.relplot(
+    data=tips, 
+    x="total_bill", y="tip", col="time",
+    hue="smoker", style="smoker", size="size",
+    legend="auto"
+)
+```
+
+## But, what?
+
+What is sns.relplot? 
+
+-> To the Code Documentation!
+[Relplot](https://seaborn.pydata.org/generated/seaborn.relplot.html#seaborn.relplot)
+
+## Your task
+
+1. Change the code from the previous slide so that the text is different on every label
+
+- Add `kind=line` to the parameters
+- Underneath `sns.settheme()` add `sns.set_style('whitegrid')`
+
+## But wait!
+On the [docs](https://seaborn.pydata.org/generated/seaborn.objects.Jitter.html) page, it shows `so.Plot` in addition to `sns.relplot`.  
+
+```{python}
+import seaborn.objects as so
+# Same (ish) viz of the tips
+(
+    so.Plot(tips, x="total_bill", y="tip", color="smoker")
+    .add(so.Dots())
+    .facet(col="time")
+)
+```
+
+## But wait, again
+We can chain these together and stack them until we get what we want. 
+
+```{python}
+import seaborn.objects as so
+# Same (ish) viz of the tips
+(
+    so.Plot(tips, x="total_bill", y="tip", color="smoker")
+    .add(so.Dots())
+    .facet(col="time")
+   # .add(so.Line(alpha=.5), so.PolyFit(order=2))  # Statistical transform + mark combined
+   # .add(so.Dots(alpha=0.5), so.Dodge())               # Raw data points jittered/dodged
+   # .add(so.Line(), so.Agg("mean"), so.Dodge())        # Line connecting group means
+    #.add(so.Range(), so.Est(errorbar="se"), so.Dodge()) # Standard error range bars
+    .label(
+        x="Total Bill ($)",
+        y="Tip ($)",
+        title="Tip vs. Bill by Time of Day"
+    )
+)
+```
+
+## What else can we do?
+
+[The gallery!](https://seaborn.pydata.org/examples/index.html)
+
+
+
+
+## Next
+- What kind of dataviz does your project need?
+
+## By Your Powers Combined!
+Get in groups with others making similar visualizations and help each other to get one built locally
+

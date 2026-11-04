@@ -1,0 +1,485 @@
+---
+title: Initial Questions
+author: Hayden Steinmann
+execute:
+ code-fold: true
+---
+
+## About
+This file consists of 10 questions. I added two additional questions that I really wanted to look at. The first four questions look at school demographics and incident/disciplinary reports.
+
+### Dataset
+The data from this analysis is pulled form a variety of sources. All files are included within the `datasets_files` folder. For certain datasets I only pulled the relevant data files to avoid overcrowding. I included data dictionarys for certain files for personal reference.
+
+### Research Question
+I initially posed three research questions all of which are pretty broad and go in slightly different directions. I'm hoping by the end of Stage 2 I'll be able to narrow it down and have a better understanding of the data that's infront of me. The questions included: 1. How the geographic patterns of school/neighborhood segregation in Mecklenburg County may shape patterns of juvenile and young adult criminal legal system involvement, how  residential segregation shapes the geography of police encounters in Mecklenburg County, and how the geographic distribution of racial and socioeconomic school segregation in Mecklenburg County has changed over time. I defintely can't answer all of these in my project but am confident that the data and information for at least one of them exists.
+
+## Loading and Merging Initial Datasets
+
+```{python}
+import pandas as pd
+from pyprojroot import here
+
+file_path = here("projects/hayden_project/datasets_files/rcd_inc2.xlsx")
+inc_dis = pd.read_excel(file_path)
+
+print(inc_dis.shape)
+print(inc_dis.head())
+print(inc_dis.columns.tolist())
+```
+
+```{python}
+print(inc_dis['year'].value_counts().sort_index())
+print(inc_dis['subgroup'].value_counts())
+print(inc_dis['agency_code'].nunique())
+```
+
+```{python}
+location = pd.read_excel(here("projects/hayden_project/datasets_files/rcd_location.xlsx"))
+
+print(location.shape)
+print(location.head())
+print(location.columns.tolist())
+```
+
+I have to merge two different data sets so that I can properly look at both incident/disciplinary reports and racial disparity information. This was kind of a lot of work and I hate merging so I hope I did it right. Stack Overflow came in clutch. I did a lot of print statemetns so that I could see what I was looking at and what was included in each dataset.
+
+This is merging the two datasets I'm going to be looking at and is also filtering them so that it's only schools in Mecklenburg County and the year 2025.
+
+```{python}
+inc_dis_2025 = inc_dis[inc_dis['year'] == 2025].copy()
+
+location_2025 = location[location['year'] == 2025].copy()
+
+merge_2025 = inc_dis_2025.merge(
+ location_2025,
+ on = ['year', 'agency_code'],
+ how = 'left')
+
+meck_2025 = merge_2025[
+ (merge_2025['county'] == 'Mecklenburg') & (merge_2025['agency_level'] == 'SCH')]
+
+print(meck_2025.shape)
+print(meck_2025['name'].nunique())
+```
+
+## Question 1: What kinds of disciplinary incidents are reported in Mecklenburg schools?
+
+OKKK!!! I can finally ask my first question. I want to get a general understanding of the types of reports that happen in schools and which ones are most common. The dataset includes several different types of incidents including, in-school suspension, expulsion, criminal acts, bullying, etc. I went ahead and filtered the data so that each school only appears once instead of including multiple student subgroups. This left me with 221 schools.
+
+```{python}
+# Looking only at all students rather than individual subgroups
+meck_all = meck_2025[meck_2025['subgroup'] == 'ALL'].copy()
+
+meck_all.to_csv(here("projects/hayden_project/datasets_files/meck_all.csv"),
+    index=False)
+
+print(meck_all.shape)
+print(meck_all['name'].nunique())
+```
+
+I then looked at the median rate of each type of incident per 1000 students.
+
+```{python}
+print("Median rate per 1,000 students:")
+
+print("In-school suspension:", meck_all['iss_per1000'].median())
+print("Short-term suspension:", meck_all['sts_per1000'].median())
+print("Long-term suspension:", meck_all['lts_per1000'].median())
+print("Expulsion:", meck_all['exp_per1000'].median())
+print("Criminal acts:", meck_all['act_per1000'].median())
+print("Bullying/harassment:", meck_all['bha_per1000'].median())
+print("Law enforcement referrals:", meck_all['rpt_per1000'].median())
+print("School-related arrests:", meck_all['arr_per1000'].median())
+```
+
+Right off the bat we see that short-term suspension and in-school suspension have the highest median rates at 34.63 and 43.87, respectively. When comparing these to the number of law enforcement referrals and school-related arrests the numbers vary quite drastically. I think this was a good first exploration as it makes me wonder whether certain groups of students experience these forms of discipline at higher rates and especially whether the 1.84 median rate of law enforcements referrals consists of a certain demographic. I do want to look at law enforcement referrals and school-related arrests a bit more closely since these numbers seem a bit low.
+
+```{python}
+print(meck_all[['rpt_per1000', 'arr_per1000']].describe())
+```
+
+This gives a better picture that law enforcement referrals and school-related arrests do happen but perhaps only at certain schools and perhaps some more than others which I'll look at later.
+
+## Question 2: How do short-term and in-school suspension rates differ across racial groups?
+
+Ok next up I'm going to be filtering the data so that it looks at some of the student subgroups that I mentioned above.
+
+```{python}
+race = meck_2025[meck_2025['subgroup'].isin(['BL7', 'WH7', 'HI7', 'AS7', 'MU7'])].copy()
+
+print(race[['subgroup', 'sts_per1000', 'iss_per1000']].groupby('subgroup').median())
+```
+
+WOW. This highlights a pretty staggering difference. These values are based on median values and show that the short-term suspension rate for Black students was nearly five times the rate of white students, at 85.44 and 17.54 respectively. Hispanic and Multiracial (MU) also had higher rates than white students, not quite as drastic but still a noticeable difference. While this pattern was quite clear, I'm interested if there's any other factors that may contribute to these suspension rates.
+
+## Quesiton 3: Is a pattern present surrounding economic status?
+
+```{python}
+economic = meck_2025[meck_2025['subgroup'].isin(['EDS', 'NEDS'])].copy()
+
+print(economic[['subgroup', 'sts_per1000', 'iss_per1000']].groupby('subgroup').median())
+```
+
+Another pretty clear trend. Economically disadvantaged students had in-school and short-term suspension rates over double those of non-economically disadvantaged students. Since a pattern exists when comparing suspension rates to both race and economic status, I'm curious whether a pattern exists between these two variables and how they vary by individaul school.
+
+## Question 4: Do schools with different racial/socioeconomic breakdowns have different disciplinary rates?
+
+For this I unfortunately needed a new data file from the same dataset so I'm going to load that in quickly.
+
+```{python}
+eds = pd.read_excel(here("projects/hayden_project/datasets_files/rcd_acc_eds.xlsx"))
+
+print(eds.shape)
+print(eds.head())
+print(eds.columns.tolist())
+```
+
+Ok more merging needs to happen. It's pretty repetitive to above.
+
+```{python}
+eds_2025 = eds[eds['year'] == 2025].copy()
+
+meck_eds = meck_all.merge(
+ eds_2025,
+ on = ['year', 'agency_code'],
+ how = 'left')
+```
+
+Another unfortunate event is that within this dataset I couldn't seem to find a file that gave the racial demographic breakdown of each school so that's something that I'm going to have to keep searching for. In the meantime we can look at this datafile that gives us the percentage of students at each school that are economically disadvantaged (EDS). While I'm expecting the answer to be that a high EDS population will correlate to a high STS and ISS rates lets confirm.
+
+```{python}
+print("Lowest % EDS", meck_eds['pct_eds'].min())
+
+print("Highest % EDS", meck_eds['pct_eds'].max())
+
+print("Median % EDS", meck_eds['pct_eds'].median())
+```
+
+```{python}
+print(meck_eds[['name', 'pct_eds', 'sts_per1000', 'iss_per1000']].sort_values('pct_eds').head(10))
+
+print(meck_eds[['name', 'pct_eds', 'sts_per1000', 'iss_per1000']].sort_values('pct_eds', ascending = False).head(10))
+```
+
+This is quite interesting to look at. I think it brings up an important statistical point as I need to make sure that as I move forward I'm looking at the size of each individaul school. Schools that have an STS/ISS rate of 500+ may be relatively small schools making their numbers relatively skewed so this is an important to look closer at. A relatively small school could have super high numbers, but this ultimately is reflective of fewer students. Looking at the 10 schools with the lowest percent of EDS we see that their STS and ISS rates are relatively low when compared to the 10 schools with the highest percent of EDS. It's confirming to see this in actual numebrs as it shows that the questions we looked at above were leading us in the right direction.
+
+## Question 5: Do racial disparities in suspension rates also appear in law enforcement refferals and school-related arrests?
+
+```{python}
+race_contact = meck_2025[
+    meck_2025["subgroup"].isin(["BL7", "WH7", "HI7", "AS7", "MU7"])].copy()
+
+contact_summary = race_contact.groupby("subgroup").agg(
+    schools_with_data_referrals=("rpt_per1000", "count"),
+    schools_with_referrals=("rpt_per1000", lambda x: (x > 0).sum()),
+    schools_with_data_arrests=("arr_per1000", "count"),
+    schools_with_arrests=("arr_per1000", lambda x: (x > 0).sum()))
+
+contact_summary["pct_schools_with_referrals"] = (
+    contact_summary["schools_with_referrals"] / contact_summary["schools_with_data_referrals"] * 100)
+
+contact_summary["pct_schools_with_arrests"] = (
+    contact_summary["schools_with_arrests"] / contact_summary["schools_with_data_arrests"] * 100)
+
+print(contact_summary)
+```
+
+From this we can see that schools report nonzero law enforcement referral rates for Black students more frequently than for the other racial subgroups. 45.9% of schools with available data reported nonzero referral rates. School-related arrests weren't very common in this data with only four scholls having an arrest rate. The Black subgroup was the highest though it's hard to compare due to the low numbers.
+
+## Question 6: Are schools with higher suspension rates (ISS and STS) also reporting higher rates of law enforcement referrals and school-related arrests?
+
+```{python}
+
+disc_sum_stats = meck_all[['iss_per1000',
+    'sts_per1000', 'rpt_per1000', 'arr_per1000']].describe()
+
+print(disc_sum_stats)
+```
+
+```{python}
+disc_corr = meck_all[
+    ["iss_per1000", "sts_per1000", "rpt_per1000", "arr_per1000"]].corr()
+
+print(disc_corr.loc[
+        ["iss_per1000", "sts_per1000"],
+        ["rpt_per1000", "arr_per1000"]])
+```
+
+To answer this question I calculated summary statistics and correlations to see the relationship between school disciplinary rates and law enforcement contact. The correlation analysis showed that short-term suspension rates had a moderately postive correlation with law enforcement refferal rates (r = 0.475) and a weaker positive correlation with school-related arrest rates (r = 0.314). For in-school suspension rates had little correlation with referrals and arrests. I think an important thing to note is that the values for these two variables are relatively low making it hard for us to pull any solid statistical findings. 
+
+## Shift in Analysis
+These next four questions take a more geographical approach
+
+## Loading and Merging More Datasets
+
+```{python}
+import pandas as pd
+from pyprojroot import here
+
+race_enrollment = pd.read_csv(here("projects/hayden_project/datasets_files/pupils_in_membership_by_race_and_sex_24-25.csv"))
+
+print(race_enrollment.shape)
+print(race_enrollment.head())
+print(race_enrollment.columns.tolist())
+```
+
+There's some cleaning that I need to do convert certain comma sperated values to numbers and making sure that values in two different datasets are able to be merged so I'm going to do that quickly. 
+
+```{python}
+race_enrollment = race_enrollment.copy()
+
+race_enrollment['School'] = race_enrollment['School'].astype(str)
+
+race_enrollment['Total'] = (race_enrollment['Total'].astype(str).str.replace(',', '', regex = False).astype(int))
+```
+
+OK this looks good yay!! Now merge and create matching school codes
+
+```{python}
+cms = meck_all[meck_all['agency_code'].astype(str).str.startswith('600')].copy()
+
+print(cms.shape)
+print(cms[['agency_code', 'name']].head())
+
+cms['School'] = cms['agency_code'].astype(str).str[-3:]
+
+cms_race = cms.merge(
+    race_enrollment,
+    on = 'School',
+    how = 'left',
+    suffixes = ('_discipline', 'enrollment'))
+
+cms_race.head(10)
+
+print(cms[['agency_code', 'School', 'name']].head())
+```
+
+Ok merge complete. Everything matched up nciely. meck_all is from stage2.qmd it includes disciplinary data. 
+
+## Question 7: How does racial composition vary across Charlotte-Mecklenburg Schools (CMS)?
+
+Building off the analysis that I did in my stage2.qmd, I finally found a dataset that includes the racial breakdown of all of CMS. I'm going to start by looking at schools with the highest and lowest percentage of different races and move from there. As of right now I'm not planning to look at sex so I'm going to combine the male and female counts for each racial group.
+
+```{python}
+cms_race['pct_black'] = (
+    (cms_race['BLACK Male'] + cms_race['BLACK Female'])/
+    cms_race['Total'] * 100)
+
+cms_race['pct_white'] = (
+    (cms_race['WHITE Male'] + cms_race['WHITE Female'])/
+    cms_race['Total'] * 100) 
+
+cms_race['pct_hispanic'] = (
+    (cms_race['HISPANIC Male'] + cms_race['HISPANIC Female'])/
+    cms_race['Total'] * 100)
+```
+
+```{python}
+print("Median percentage of Black students:", cms_race['pct_black'].median())
+
+print("Lowest percentage of Black students:", cms_race['pct_black'].min())
+
+print("Highest percentage of Black students:", cms_race['pct_black'].max())
+
+print(cms_race[['name', 'pct_black', 'sts_per1000', 'iss_per1000']].sort_values('pct_black').head(10))
+
+print(cms_race[['name', 'pct_black', 'sts_per1000', 'iss_per1000']].sort_values('pct_black', ascending = False).head(10))
+
+```
+
+When looking at these outputs we see substantial variation in racial compostion across CMS. The median percentage of Black students across CMS was roughly 34% however this percentage ranged from 0% to 80.1%. I included the STS and ISS values for the top 10 and bottom 10 schools and noticed that generally speaking schools with higher percentages of Black students also had higher suspension rates. However, this pattern wasn't always the case suggesting there are likely other outside factors. These findings are pretty similar to a question I asked previoulsy but I thought it was important to take a look at since I'm using a different dataset now. 
+
+## Question 8: Where are CMS schools located with different demographic and disciplanry breakdowns located?
+
+Ok I now want to move onto looking at the geographic aspect of this analysis a bit more. I thought a good intro to this would be to look at the location of schools. The dataset I'm using already has school adresses, cities, and zip codes but not lat and long values so I'm going to have to first find those which with a little research I learned I can do by using geopy.
+
+```{python}
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
+
+# geolocator = Nominatim(user_agent = "cms_school_geo")
+
+# geocode = RateLimiter(geolocator.geocode, min_delay_seconds = 1.1, max_retries = 2)
+
+# school_locations = cms[['agency_code', 'name', 'street_addr', 'city', 'state', 'zip']].copy()
+
+# school_locations['full_address'] = (school_locations['street_addr'].astype(str) + ', ' + school_locations['city'].astype(str) + ', ' + school_locations['state'].astype(str) + ', ' + school_locations['zip'].astype(str).str.replace(r'\.0$', '', regex = True) + ', USA')
+
+# school_locations['location'] = school_locations['full_address'].apply(geocode)
+
+# school_locations['latitude'] = school_locations['location'].apply(lambda loc: loc.latitude if loc else None)
+
+# school_locations['longitude'] = school_locations['location'].apply(lambda loc: loc.longitude if loc else None)
+
+# school_locations.to_csv(here("projects/hayden_project/datasets_files/cms_school_locations.csv"), index=False)
+```
+
+I commented out this code because it takes a long time to run and at the end of the code I saved it as a .csv  that is now in my datasets_files, but I at least wanted to show how I got those numbers.
+
+Ok that took like way way longer than I was expecting, but I think it's kinda crucial to my project so hopefully that's the last of that. We now have lat and long values for 180/186 of the schools so we can look at some geography stuff. I will probably try and fill in the missing 6 schools by hand.
+
+I now need to do another merge so that I can have one data frame that has coordinates, racial breakdown, and suspension rates info.
+
+```{python}
+school_locations = pd.read_csv(here("projects/hayden_project/datasets_files/cms_school_locations.csv"))
+
+school_coords = school_locations[['agency_code', 'latitude', 'longitude']].copy()
+
+cms_race["agency_code"] = cms_race["agency_code"].astype(str)
+school_coords["agency_code"] = school_coords["agency_code"].astype(str)
+
+cms_map_info = cms_race.merge(school_coords, on = 'agency_code', how = 'left')
+
+```
+
+PLOT TIME!! I'm using plotly also via help of StackOverflow. This plot is going to map the location of each individal school and then the color will be based on the percent of students that are black and it will also include the STS and ISS levels of that school through the hover feature. 
+
+Also FYI you may have to zoom out a lot and then zoom back in on Mecklenburg county to view it, couldn't figure out how to set where it auto zooms to.
+
+```{python}
+import plotly.express as px
+
+fig = px.scatter_map(
+    cms_map_info,
+    lat = 'latitude',
+    lon = 'longitude',
+    color = 'pct_black',
+    hover_name = 'name',
+    hover_data = {
+        'pct_black': ':.1f',
+        'sts_per1000': ':.1f',
+        'iss_per1000': ':.1f',
+        'latitude': False,
+        'longitude': False},
+    color_continuous_scale = 'Viridis',
+    zoom = 9,
+    title = 'Racial Composition of Charlotte-Mecklenburg Schools')
+
+fig.show()
+```
+
+This looks far from random!!!! When looking at the map a pretty apparent pattern becomes clear. It looks like schools with a lower percent of black students are located in the southern part of the county while higher percent schools are more northern and located in a somewhat cone-ish looking shape. This leads me to my next quesiton of why this may be? It also leaves me wondering how this relates to the demographics of surrounding areas and neighborhoods relative to schools. 
+
+I'm kinda needing a lot of datasets at this point, but I guess it's better to explore too many than too few. The next thing I'm going to look at I think is the racial dispersion of Mecklenburg county as a whole.
+
+Looking at neighborhood demographics is scaring me a bit so I'm going to pivot a bit and look at the criminal activity throughout Mecklenburg county. 
+
+## Question 9: What type of reported crime is the most common in the Charlotte/Mecklenburg County area?
+
+Ok lets look at a dataset from the CMPD that is a record of violent crime in the area.
+
+```{python}
+import geopandas as gpd
+
+crime = gpd.read_file(here(
+    "projects/hayden_project/datasets_files/Violent_Crime_Data.geojson"))
+
+print(crime.shape)
+print(crime.crs)
+print(crime.columns.tolist())
+print(crime.head())
+```
+
+Let's look at some patterns over time.
+
+```{python}
+import matplotlib.pyplot as plt
+
+overall_crime = crime[
+    (crime['ROW_TYPE'] == 'CMPD Jurisdiction') &
+    (crime['OFFENSE_DESCRIPTION'] == 'Violent Crime')].copy()
+
+overall_crime['CALENDAR_YEAR'] = pd.to_numeric(overall_crime['CALENDAR_YEAR'])
+overall_crime['OFFENSE_COUNT'] = pd.to_numeric(overall_crime['OFFENSE_COUNT'])
+
+annual_crime = (overall_crime.groupby('CALENDAR_YEAR')['OFFENSE_COUNT'].sum().reset_index().sort_values('CALENDAR_YEAR'))
+
+annual_crime = annual_crime[annual_crime['CALENDAR_YEAR'] < 2026]
+
+plt.figure(figsize = (10, 5))
+plt.plot(
+    annual_crime['CALENDAR_YEAR'],
+    annual_crime['OFFENSE_COUNT'],
+    marker = 'o')
+
+plt.title('Reported Violent Crime in Charlotte-Mecklenburg, 2015–2025')
+plt.xlabel('Year')
+plt.ylabel('Annual reported violent-crime count')
+plt.xticks(annual_crime['CALENDAR_YEAR'], rotation=45)
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+print(annual_crime.to_string(index=False))
+```
+
+This is an interesting pattern, I might do some history/lit exploration of the why behind this pattern.
+
+I'm going to look at the different types of crime next.
+
+```{python}
+offense_trends = crime[
+    (crime['ROW_TYPE'] == 'CMPD Jurisdiction') &
+    (crime['OFFENSE_DESCRIPTION'] != 'Violent Crime')].copy()
+
+offense_trends['CALENDAR_YEAR'] = pd.to_numeric(
+    offense_trends['CALENDAR_YEAR'])
+offense_trends['OFFENSE_COUNT'] = pd.to_numeric(
+    offense_trends['OFFENSE_COUNT'])
+
+annual_offenses = (
+    offense_trends
+    .groupby(['CALENDAR_YEAR', 'OFFENSE_DESCRIPTION'])['OFFENSE_COUNT']
+    .sum()
+    .reset_index())
+
+annual_offenses = annual_offenses[
+    annual_offenses['CALENDAR_YEAR'] < 2026]
+
+print(annual_offenses.head(15))
+```
+
+This is interesting to look at. It looks like Aggravated Assault-Gun has by far the most amount of offense counts. Unforutnately this data does not give us any information about the person's age. I haven't been able to find a dataset that does this.
+
+## Question 10: How do reported violent crime vary across Charlotte-Mecklenburg’s Neighborhood Profile Areas?
+
+Working off of this same data I'm wanting to look at how violent crime reports differ accross NPA's. I hope to maybe define these NPAs at some point. But we'll see. I need to start narrowing down what I'm doing.
+
+```{python}
+npa_crime_2025 = crime[
+    (crime['ROW_TYPE'] == 'Neighborhood Profile Area') &
+    (crime['OFFENSE_DESCRIPTION'] == 'Violent Crime') &
+    (crime['CALENDAR_YEAR'].astype(str) == '2025')].copy()
+
+npa_crime_2025['OFFENSE_COUNT'] = pd.to_numeric(
+    npa_crime_2025['OFFENSE_COUNT'],
+    errors='coerce')
+
+npa_totals = (
+    npa_crime_2025
+    .groupby('GEOGRAPHY')['OFFENSE_COUNT']
+    .sum()
+    .reset_index()
+    .rename(columns={
+        'GEOGRAPHY': 'npa',
+        'OFFENSE_COUNT': 'violent_crime_count'}))
+
+top_npas = npa_totals.sort_values(
+    'violent_crime_count',
+    ascending=False).head(10)
+
+plt.figure(figsize=(10, 6))
+
+plt.bar(
+    top_npas['npa'].astype(str),
+    top_npas['violent_crime_count'])
+
+plt.title('Neighborhood Profile Areas with the Highest Reported Violent Crime, 2025')
+plt.xlabel('Neighborhood Profile Area')
+plt.ylabel('Reported violent-crime count')
+plt.tight_layout()
+plt.show()
+```
+
+This is a nice plot that shows that certain NPAs have higher reported counts of violent-crime. It would be interesting to identiy what these NPA numbers represent and the demographic within them. 

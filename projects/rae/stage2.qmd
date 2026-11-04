@@ -25,9 +25,14 @@ import matplotlib.pyplot as plt
 ```
 
 ```{python}
+from pyprojroot import here # this helps us navigate tricky path stuff between local runs and quarto builds
 
-df_dist = pd.read_excel('sds316/projects/rae/data/Texas_district_reallocation_results.xlsx')
-df_block = pd.read_csv('sds316/projects/rae/data/Texas_block_returning_data.csv')
+# Load the data using here() with the path from the project root
+file_dist = here("projects/rae/data/Texas_district_reallocation_results.xlsx")
+file_block = here("projects/rae/data/Texas_block_returning_data.csv")
+
+df_dist = pd.read_excel(file_dist)
+df_block = pd.read_csv(file_block)
 
 df_dist.head()
 ```
@@ -118,7 +123,8 @@ First I need to get the Texas house district shape files to plot.^[Source: https
 ```{python}
 #importing the 2022 HD shapes (this should be pre- recent mid-decade redistricting)
 import geopandas as gpd
-district_shape = gpd.read_file('sds316/projects/rae/data/TX-2022-State-House-district-shapes-no-landmarks.geojson')
+file_dist_shape = here('projects/rae/data/TX-2022-State-House-district-shapes-no-landmarks.geojson')
+district_shape = gpd.read_file(file_dist_shape)
 ```
 
 ```{python}
@@ -173,7 +179,8 @@ Great, it seems like all of the districts that are too big once people are reall
 Now lets look at the demographic breakdowns of these counties; specifically the percent of the population that is black.   
 
 ```{python}
-tx_dist_info = pd.read_csv('sds316/projects/rae/data/district-data.csv')
+file_tx_dist = here('projects/rae/data/district-data.csv')
+tx_dist_info = pd.read_csv(file_tx_dist)
 ```
 
 ```{python}
@@ -215,7 +222,7 @@ df_150.head()
 fig, ax = plt.subplots()
 
 df_150 = df_150.set_geometry('geometry')
-df_150 = df_150.to_crs('EPSG: 3081')
+df_150 = df_150.to_crs('EPSG:3081')
 
 df_150['pct_black'] = df_150['T_20_CENS_Black'] / df_150['T_20_CENS_Total']
 
@@ -242,18 +249,18 @@ Lets plot the 5 largest state correctional facilities . I think I know which dis
 # prisons_gdf  = gpd.tools.geocode(adresses)
 # #, verify = False) this doesn't work :(
 # prisons_gdf.head()
+# file_prisons = here('projects/rae/data/allprisons.csv')
+# prison_gdf = gpd.read_file(file_prisons)
+# prison_gdf = prison_gdf[prison_gdf['stateshortname'] == 'TX']
+# prisons_1 = prison_gdf[['name', 'coordinates']]
+# prisons_2 = prison_gdf[['PrisonName', 'geometry']]
+# prisons_1.rename(columns = {'name': 'PrisonName', 'coordinates': 'geometry'}, inplace = True)
+# prisons_merged = pd.concat([prisons_1, prisons_2], axis = 0).reset_index()
+# prisons_merged = prisons_merged[prisons_merged['geometry'].str.contains(')', regex = False)]
+# prisons_merged['geometry'] = shapely.from_wkt(prisons_merged['geometry'])
 
-prison_gdf = gpd.read_file('sds316/projects/rae/data/allprisons.csv')
-prison_gdf = prison_gdf[prison_gdf['stateshortname'] == 'TX']
-prisons_1 = prison_gdf[['name', 'coordinates']]
-prisons_2 = prison_gdf[['PrisonName', 'geometry']]
-prisons_1.rename(columns = {'name': 'PrisonName', 'coordinates': 'geometry'}, inplace = True)
-prisons_merged = pd.concat([prisons_1, prisons_2], axis = 0).reset_index()
-prisons_merged = prisons_merged[prisons_merged['geometry'].str.contains(')', regex = False)]
-prisons_merged['geometry'] = shapely.from_wkt(prisons_merged['geometry'])
-
-prisons_merged = prisons_merged.set_geometry('geometry', crs = 4326)
-prisons_merged = prisons_merged.to_crs('EPSG:3081')
+# prisons_merged = prisons_merged.set_geometry('geometry', crs = 4326)
+# prisons_merged = prisons_merged.to_crs('EPSG:3081')
 
 ```
 
@@ -270,7 +277,7 @@ df_150[df_150['district_h'].isin(rel_districts)].plot(ax = axis, column = 'pct_b
 
 df_150[df_150['toosmall'] == 1.0].plot(ax = axis, column = 'size', alpha = 0.5, hatch = '||', hatchcolor = 'white')
 
-prisons_merged.plot(ax = axis, color = 'red', markersize = 3)
+# prisons_merged.plot(ax = axis, color = 'red', markersize = 3)
 
 ```
 
@@ -279,7 +286,7 @@ Hmm, it seems like prisons also exist in areas that become "too big" after reall
 Not sure how to get rid of the outlier point!
 
 ```{python}
-shapely.from_wkt(prisons_merged['geometry'].iloc[0])
+#shapely.from_wkt(prisons_merged['geometry'].iloc[0])
 ```
 
 # Seventh question: The plots above used the pct_black with the unadjusted totals/Census counts. Do the results change when we ue the adjusted data? 
@@ -295,7 +302,8 @@ df_150[df_150['district_h'].isin(rel_districts)].plot(ax = ax2, column = 'adj_pc
 
 df_150[df_150['toosmall'] == 1.0].plot(ax = ax2, column = 'size', alpha = 0.5, hatch = '||', hatchcolor = 'white')
 
-plt.title('Pct of Adjusted District - Black', ax = ax2)
+ax2.set_title('Pct of Adjusted District - Black')
+
 ```
 
 It doesn't look like anything changed. 
@@ -303,7 +311,8 @@ It doesn't look like anything changed.
 # Eighth question: What about partisanship? Are there partisan patterns to the way in which people are distributed? 
 
 ```{python}
-df_elect = pd.read_csv('sds316/projects/rae/data/district-election-data.csv')[['E_16-20_COMP_Total', 'E_16-20_COMP_Dem', 'E_16-20_COMP_Rep']]
+file_elect = here('projects/rae/data/district-election-data.csv')
+df_elect = pd.read_csv(file_elect)[['E_16-20_COMP_Total', 'E_16-20_COMP_Dem', 'E_16-20_COMP_Rep']]
 
 df_elect = df_elect.drop(0, axis = 0).reset_index()
 ```
@@ -325,7 +334,8 @@ df_150[df_150['district_h'].isin(rel_districts)].plot(ax = ax3, column = 'Dem_vo
 
 df_150[df_150['toosmall'] == 1.0].plot(ax = ax3, column = 'size', alpha = 0.5, hatch = '||', hatchcolor = 'white')
 
-plt.title('Pct of Non-adjusted District - Dem', ax = ax3)
+ax3.set_title('Pct of Non-adjusted District - Dem')
+#plt.title('Pct of Non-adjusted District - Dem', ax = ax3)
 ```
 
 There are much clearer partisan pattersn to this. Most of the counties that are "too big" after reallocation voted Democratic, so this confirms that theres are partisan consquences to prison gerrymandering in Texas, as the literature suggests. 
@@ -363,7 +373,8 @@ pa_chain = MarkovChain(
 
 
 ```{python}
-graph = Graph.from_json("sds316/projects/rae/data/PA_VTDs.json")
+file_graph = here("projects/rae/data/PA_VTDs.json")
+graph = Graph.from_json(file_graph)
 
 my_updaters = {"population": updaters.Tally("TOT_POP", alias="population")}
 

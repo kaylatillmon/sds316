@@ -2,12 +2,16 @@
 title: "Texas Incarceration"
 author: 
   - "Tanisha Chetty"
-date: 2026-09-30
-description: "An Investigation of the Incarcerated Population Betwen 2000-2026"
-categories: [Texas, Population, Demographics]
-image: "texas.jpg"
+date: 2026-10-21
+description: "An Investigation of the Offenses and Demographics in Texas Prisons"
+categories: [Texas, Population, Demographics, Drugs]
+image: "images/texas.jpg"
 ---
 
 ## Project Overview
-My research project is about change in the incarcerated population of Texas between 2000 and 2026. I also hope to answer questions about if the rate of incarceration has changed and whether the crimes people are being charged with have changed. Additionally, this research project hopes to explore any demographic changes that have occurred within the incarcerated population of Texas.
+My research project is about demographic differences in Texas prisons. I hope to answer demographic questions about drug offenses, along with the racial makeup of Texas prisons as a whole. Additionally, this research project hopes to explore if there are any potential impacts of policy on the racial makeup of Texas prisons.
 
+### Components
+- [Research Plan](research-plan.qmd) 
+- [Exploratory Data Analysis](stage-2.qmd)
+- [Initial draft writing & reflection](stage2-writing.qmd)

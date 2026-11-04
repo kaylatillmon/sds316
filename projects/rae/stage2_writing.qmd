@@ -1,0 +1,38 @@
+---
+title: Stage 2 Writing
+author: Rae Traver-Fallick
+execute:
+  code-fold: true
+---
+
+In this file, reflect on what you've learned (overall across all 8 or more questions you've asked and answered) and how you'd like to complete the project.
+
+Answer at least **5** of the following questions:
+
+1.  What data did you think you'd find that you weren't able to find?
+
+**2. What most surprised you about the data you've been working with?** I was surprised by the racial demographics of the districts that were too big after reallocation. I suspected that I would see elevated Black populations within these districts given the racial nature of mass incarceration. However, while this was true for some districts, many other "too big" districts had similar Black/non-Black ratios as districts that were "too small" after reallocation. Given what I know about Texas , I wonder if the same would hold comparing the Hispanic populations across "big" and "small" districts. (EDIT: I went back and checked this. It does!) More broadly, I'm curious if the racial implications of prison gerrymandering in Texas, California, and New Mexico differ compared to that of other states.
+
+**3. What questions do you still have? What would help you answer them?** At it's most base level, I realize that I do not know how successful the reallocation efforts that produced the data I use were. That is, were 100% of the people removed from districts added back to their home districts? (EDIT: I checked this. Yes, essentially)
+
+Likewise, in New York State [White, Webley-Brown, and Markovich](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4783018) report that a small number of districts—those containing prisons—lost a large number of individuals, while a large number of districts—from which incarcerated individuals are drawn—each gained only a small number of people. In Texas it appears that this is true; 89 more districts gain individuals compared to the districts that lost individuals. However, I do not know the extent of this gain within each of these districts—though this is an easy question to answer.(EDIT: I checked this as well. The average gain in these districts is 763 or .4% of a single district.)
+
+In addition to the questions above, I have not yet investigated my central research question: "How would the reallocation of incarcerated individuals during the 2020 redistricting cycle impact the distribution of possible legal maps and/or partisan outcomes in Texas." To answer this I'll need to run some kind of ensemble model using the Gerrychain package in Python. Howver, there is the another question of which ensemble to use; "flip" ensembles flip the district assignment of a single precinct or census block to produce a new map. However, flip is slow and often fails to generate new maps that differ significantly from the base map. Other, more recent methods include Recombination (ReCom) and Reverse RecCom (Rev ReCom). White et. al use Sequential Monte Carlo, which, like "flip" ensembles, samples uniformly from the world of possible legal maps. However, as [DuFord, Duchin, and Solomon](https://arxiv.org/abs/1911.05725) point out, assuming a uniform distribution of possible maps is a mistake; ReCom and RevRecom address this uniform sampling issue.
+
+Returning to the demographics of Texas, White et. al. make a good point about NYS being generally representative of other states in key ways; another path for investigation that is potentially relevant is how Texas compares to other states. Does Texas' size, large Hispanic population, Republican lean, and high incarceration rate make its example less/more relevant to other states? To what extent is it an "extreme case"?
+
+Finally, another unanswered question comes directly from White et. al; they write that they hope to investigate the impact of prison gerrymandering on local-level redistricting in areas with prisons. This is another direction for analysis.
+
+**4. What story are you trying to tell with this data?**
+
+Ultimately, I am interested in better understanding whether some kind of prisoner reallocation redistricting law would prove to be effective in Texas. That is, would enforced reallocation of prisoners when redistricting actually measurably change the range of possible legal maps and thus partisan outcomes in the state?
+
+Likewise, I'm interested in investigating the impact of new prisons on possible legal maps. To what extent did the building of new prisons in Texas from 2010 to 2020 change the partisan makeup of the state's legislative chambers?
+
+**5. How do you think the insights you're discovering will be best presented? That is, what kinds of displays might be most effective for the story you're trying to tell?**
+
+I have a few ideas. First, since ensemble methods are used for outlier analysis, histograms are the best way to display the distributions of legal maps/partisan outcomes. Drawing from Duchin's Data and Democracy Lab's interactive "Introduction to Ensembles" page, I want to build an interactive tool that lets people "build prisons" on a map and see how the locations they choose shift the maps that are possible.
+
+**6. How has your thinking changed since you first wrote your research question?** My thinking has largely remained unchanged; my central research question remains the exact same. However, I now have a better understanding of the kinds of supplementary information that may be relevant to that question. I also have a new secondary focus on the impacts of building new prisons. (See Q3)
+
+7.  How do you think you'll be able to connect your project to others in your research cluster?

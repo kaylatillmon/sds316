@@ -1,0 +1,32 @@
+---
+title: Stage 2 Writing
+author: Catherine Xu
+execute:
+    code-fold: true
+---
+
+
+1. What data did you think you'd find that you weren't able to find?
+I mentioned this point a few times in my stage 2 file but I think it would be much more helpful if I had more population data, specifically the 2020 census data for NYC to see how the frequency of domestic violence reports map onto the racial demographics of each borough and across the whole city. I didn't expect this dataset to give me that information but I should have had more foresight regarding the potential need to find more general data, but I wanted to work with this main dataset first.
+
+
+2. What most surprised you about the data you've been working with?
+So far I'm a little surprised at how comparably few data points there are for racial demographics besides white and Black people, but if I had to guess it is that certain demographics either tend to call the police less or tend to have the police called on them less for whatever reason. I am curious and should have probably expanded on my poverty question and calculated the proportion of victims and suspects who were white in areas marked as having a high poverty rate, as poverty is so racialized (associated with people of color, especially Black and brown) and so I wonder if the reports of domestic violence for the white people in the dataset have anything to do with poverty levels.
+
+
+3. What questions do you still have? What would help you answer them?
+I still do not have information/data on how prosecution is conducted regarding domestic violence cases, and it's already hard to tell if there is bias involved in the incident report data, let alone in the entire justice process. I definitely still think the dataset I have is useful in identifying the general demographic (race & sex), geographical, and socioeconomic circumstances that most often come into contact with the police, but I want to find supplemental data that deals more explicitly with arrests and convictions, as this dataset only aggregates all the *incident reports*, which from my understanding may or may not have resulted in an arrest.
+
+
+4. What story are you trying to tell with this data?
+
+
+5. How do you think the insights you're discovering will be best presented? That is, what kinds of displays might be most effective for the story you're trying to tell?
+I question if an infographic is really the best way for me to convey my findings, but I think my project will end up being very writing-focused with tables and mostly bar charts to supplement and visualize proportion. In terms of maps and visualizing geospatial distribution, I don't think that's as applicable to my project but I would be open to finding or programming a map that shows generally the racial demographics of each borough.
+
+
+6. How has your thinking changed since you first wrote your research question?
+I definitely feel like I need to find more population data to be able to work more with my main dataset and thus answer my research question more effectively. It has also proven kind of difficult to find straightforward data about potential racial bias in criminal courts specifically, as in I have not gotten arrest or conviction data that has included the defendant and the plaintiff's racial demographics yet. I think my search or rather thought process may have been too broad and I need to focus on a particular city/jurisdiction. I think I am going to go with NYC because of its large population and how uniquely the city is structured by borough, not to mention the differential demographics of each borough.
+
+
+7. How do you think you'll be able to connect your project to others in your research cluster?

@@ -1,0 +1,59 @@
+---
+title: "Historical Significance, Carceral Space, Racial Criminalization "
+subtitle: "Digitize and Punish"
+description: "Lecture for Week8-C1"
+author: "Leah Levensailor"
+topics:
+- "Racial Criminalization"
+- "History"
+categories: ["seminar"]
+format:
+  revealjs:
+    theme: [serif, seminar.scss]       
+    slide-number: true
+    transition: slide
+    controls: false
+---
+
+## Today's Agenda
+
+- Data visualization idea is DUE Wednesday, to be built in class
+- Leah's our discussion leader! 
+
+
+<!--https://quarto.org/docs/presentations/revealjs/ -->
+
+# Discussion
+
+
+## Related Events
+- [Shaw v. Reno: Racial Gerrymandering](https://redistrictingonline.org/basics-gerrymandering/basics-racialgerrymandering/) _New York Law School_
+*Supreme Court case in 1993, first time the courts recognized drawing state/county/town boundaries based on race of those who live there is unconstitutional, violating 14th amendment Equal Protections Clause. 
+
+- [Systemic Racism in US](https://www.humanrightscareers.com/issues/examples-of-systemic-racism/) - Aug 9, 2021 _Human Rights Careers_  
+*Discusses the systemic racism present in the US. "According to a 2017 report, Black men got 19.1% longer sentences for the same federal crime than white men between 2012-2016." "Despite making up just 13% of the US population, Black people make up 38% of the population in jails and prisons."
+
+
+## Reading
+Introduction
+- Set a historical significance of growing data, data collection has always been politically motivated 
+- Creation of social datasets assists in the social heirarchy those in charge are trying to promote  
+
+## Continued...
+Chapter 1 
+- Data collection and analysis has always been to ostrosize the "inferior" racial group at the time, Irish, Italian, German, then Black people 
+- Datasets including race were the catalist of grouping all of the hated European Immigrants into the _white_ catagory, making the outliers the black category
+- Trying to explain crime as a social construct paved the way for ignoring physcial and only focusing on social demographics
+- More data means more reason to patrol  
+
+## Main Points
+- “As such, computational criminology is incapable of grasping internal differentiations within the classes of offenders it tabulates. No distinctions are made between the individual who sells narcotics to support a family and the individual who sells them for a gun cartel in computational criminology’s system of reference, yet both are coded as targets for heightened police scrutiny.” (pg. 55) LOSS OF IDENTITY 
+- "From the start, the social function of computational criminology was to produce targets for patrol forces; it is one-dimensional thought operating in two-dimensional space.” (pg. 53) EFFICIENCY
+
+
+## Questions!
+
+
+- Where do we go from here in order to break the self fulfilling prophecy of systemic racism, what can change about how we collect data and police to stop contributing to the problem?
+
+- Does collecting demographic data actually help, or does it contribute to putting people into boxes? What are examples of positive and negative uses of demographic data collection? 

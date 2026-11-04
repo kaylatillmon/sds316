@@ -1,0 +1,28 @@
+---
+title: Stage 2 Writing
+author: Julia Laney
+execute:
+  code-fold: true
+---
+
+### What data did you think you'd find that you weren't able to find?
+
+Before starting this project, I was unsure if I would be able to find the kind of crime data I needed for Washington state counties beyond just general crime statistics. After making a request for data from the Washington Association of Sheriffs and Police Chiefs, I was able to obtain a list of all logged offenses in Washington 2020-2025. Having a list of every single specific offense allowed me to divide the offenses into violent offenses and other offenses. Initially, I just just thinking about crime generally, but having this specific data has allowed me to add a dimension to my project: the relationship of law enforcement and social spending on violent crime rates specifically.
+
+### What most surprised you about the data you've been working with?
+
+I was surprised to learn that social services spending is a lot higher than law enforcement spending, on average. In my Stage 2 work, I found that in 2025, Washington counties spent an average of $24,960,060 on law enforcement and $65,967,350 on social services. This challenged my initial assumptions about the allocation of resources in the state.
+
+### What questions do you still have? What would help you answer them?
+
+I want to compare data across years. I have crime data from 2020-2025 and I could obtain spending data within this range. I have the tools I need to make this comparison, I just need to think about how I will go about it. Using even just one other year makes my questions more interesting because it changes from an exploration of if more spending in one category is associated with less (or more) crime to if a change in spending in one category is associated with a change in crime rates. In the next stage of the project, I plan to use 2024 data alongside the 2025 data I've already been working with to highlight any meaningful changes in spending or crime that have occurred.
+
+Further, I want to evaluate the statistical significance of my findings. I also want to think about other variables that I'm not working with that may be influencing my findings.
+
+### What story are you trying to tell with this data?
+
+I am interested in creating a project that examines how counties' priorities and resource allocation relate to the conditions that communities experience. Law enforcement and social spending reflect different approaches to public safety, and examining these alongside crime rates can (hopefully) reveal whether spending in either area can actually be associated with safer communities. I am also thinking about resource allocation from an economic efficiency standpoint. What if a reallocation of resources can lower crime at the same cost? My project can't answer this question, but my work could use evidence from Washington counties to hypothesize that a greater investment in one spending area could lower crime.
+
+### How do you think the insights you're discovering will be best presented? That is, what kinds of displays might be most effective for the story you're trying to tell?
+
+In Stage 2, I created some basic scatterplots with lines of best fit to show the relationships between crime rates and per capita spending. I think this is a simple and effective way of demonstrating the relationships between my variables. My scatterplots did have some major outliers which I think would be helpful to label. I think it would be interesting to further research these specific points and find information that could explain why these points land so far from the general trend.

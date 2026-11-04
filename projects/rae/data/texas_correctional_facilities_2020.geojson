@@ -1,0 +1,201 @@
+{
+  "type": "FeatureCollection",
+  "name": "texas_correctional_populations_census_2020_vintage",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.89321,
+          31.79002
+        ]
+      },
+      "properties": {
+        "facility_name": "H.H. Coffield Unit",
+        "prisoners": 4056,
+        "facility_type": "State",
+        "address": "2661 FM 2054",
+        "city": "Tennessee Colony",
+        "zip": "75884",
+        "county": "Anderson",
+        "survey_date": "2012-06-30",
+        "coordinate_note": "Approximate facility location from published map coordinates"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.3698,
+          29.7738
+        ]
+      },
+      "properties": {
+        "facility_name": "Harris County Jail - Detention Center",
+        "prisoners": 4003,
+        "facility_type": "Local",
+        "address": null,
+        "city": "Houston",
+        "zip": null,
+        "county": "Harris",
+        "survey_date": "2013-12-31",
+        "coordinate_note": "Approximate location; source table supplied no address"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.3698,
+          29.7738
+        ]
+      },
+      "properties": {
+        "facility_name": "Harris County Jail",
+        "prisoners": 3958,
+        "facility_type": "Local",
+        "address": null,
+        "city": "Houston",
+        "zip": null,
+        "county": "Harris",
+        "survey_date": "2013-12-31",
+        "coordinate_note": "Approximate location; source table supplied no address; may overlap the related Harris County jail entry"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -98.5055,
+          29.4275
+        ]
+      },
+      "properties": {
+        "facility_name": "Bexar County Adult Detention Center",
+        "prisoners": 3750,
+        "facility_type": "Local",
+        "address": null,
+        "city": "San Antonio",
+        "zip": null,
+        "county": "Bexar",
+        "survey_date": "2013-12-31",
+        "coordinate_note": "Approximate location; source table supplied no address"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -98.59556,
+          33.97448
+        ]
+      },
+      "properties": {
+        "facility_name": "James V. Allred Unit",
+        "prisoners": 3630,
+        "facility_type": "State",
+        "address": "2101 FM 369 North",
+        "city": "Iowa Park",
+        "zip": "76367",
+        "county": "Wichita",
+        "survey_date": "2012-06-30",
+        "coordinate_note": "Published map coordinates"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -101.73028,
+          35.24139
+        ]
+      },
+      "properties": {
+        "facility_name": "William P. Clements Unit",
+        "prisoners": 3525,
+        "facility_type": "State",
+        "address": "9601 Spur 591",
+        "city": "Amarillo",
+        "zip": "79107",
+        "county": "Potter",
+        "survey_date": "2012-06-30",
+        "coordinate_note": "Published map coordinates"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -101.50631,
+          32.22258
+        ]
+      },
+      "properties": {
+        "facility_name": "Big Spring CI",
+        "prisoners": 3504,
+        "facility_type": "Private",
+        "address": "1701 Apron Drive",
+        "city": "Big Spring",
+        "zip": "79720",
+        "county": "Howard",
+        "survey_date": "2012-06-30",
+        "coordinate_note": "Approximate nearby correctional-facility location; verify against the historical facility address"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.82374,
+          31.7547
+        ]
+      },
+      "properties": {
+        "facility_name": "George Beto Unit",
+        "prisoners": 3340,
+        "facility_type": "State",
+        "address": "1391 FM 3328",
+        "city": "Tennessee Colony",
+        "zip": "75880",
+        "county": "Anderson",
+        "survey_date": "2012-06-30",
+        "coordinate_note": "Published map coordinates"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.90345,
+          31.7942667
+        ]
+      },
+      "properties": {
+        "facility_name": "Mark W. Michael Unit",
+        "prisoners": 3245,
+        "facility_type": "State",
+        "address": "2664 FM 2054",
+        "city": "Tennessee Colony",
+        "zip": "75886",
+        "county": "Anderson",
+        "survey_date": "2012-06-30",
+        "coordinate_note": "Published map coordinates"
+      }
+    }
+  ]
+}

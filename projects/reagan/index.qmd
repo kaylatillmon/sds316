@@ -1,14 +1,23 @@
 ---
 title: "Treatment of Children in the US Criminal Justice System"
-author: 
-  - "Reagan Gonzales"
-  - "Ruolin Kang"
-date: 2026-09-30
-description: "??"
-categories: [Investigation, Capture, Trial, Detention, Supervision, Release, Re-entry, Children, Demographics]
-image: "images/thumbnail.jpeg"
+author:
+ - "Reagan Gonzales"
+date: 2026-10-21
+description: "An exploration of how young people involved in the criminal justice system view themselves, their futures, and their experiences with police and judges"
+categories: [Children, Juveniles, Demographics]
+image: "children.jpeg"
 ---
 
 ## Project Overview
 
-This project examines how the criminal justice system decides when a young person is treated as a child and when as an adult, and what that decision looks like from the inside. I'm asking where the legal line is drawn, how race, age, gender, and offense severity shapes who ends up in adult court, and how young people charged as adults come to see themselves. I'm also considering how media and public narratives about young offenders compare with actual sentencing outcomes. The project will hopefully combine national and/or state data on disparities with research on adultification and public perception. I also plan to center a planned interview with my father's friend, who was charged as an adult at 17, alongside first person accounts from others. I plan to present it as a visual report that alternates short text with data visualizations.
+This project explores how young people involved in the criminal justice system view themselves, their futures, and their experiences with the system. I am particularly interested in the distinction between being treated as a child and being treated as an adult, and how demographics  influence this distinction.
+
+Using survey data from the Pathways to Desistance study, I will examine young people's educational aspirations, expectations for success, and perceptions of fairness when interacting with police and judges. I want to understand whether young people feel heard and respected by the justice system, how they imagine their futures, and whether their experiences are connected to their expectations for success.
+
+I also plan to interview my father's friend, who was charged as an adult at 17, to learn how this experience affected his identity and outlook on life. Through all of this, I hope to look beyond how society labels young offenders and better understand their perspectives as young people navigating a system that can shape their futures. I will present my findings through a  report that a combination of data visualizations, personal stories, and my outside sources
+
+### Components
+
+- [Research Plan](research-plan.qmd)
+- [Exploratory Data Analysis](stage2.qmd)
+- [Initial draft writing & reflection](stage2-writing.qmd)

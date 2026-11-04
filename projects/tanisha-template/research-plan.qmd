@@ -6,10 +6,10 @@ execute:
 ---
 
 ## Phase 1 Research Questions
-
-1. How, if at all, has the prison population of Texas changed between 2000 and 2026?
-2. How, if at all, have the crimes with which inmates in Texas are charged changed between 2000 and 2026?
-3. How, if at all, has the rate of incarceration in Texas changed between 2000 and 2026?
+### research questions modified from stage 1
+1. How, if at all, do the racial breakdowns of Texas prisons differ from the Texas population as a whole?
+2. How, if at all, do the racial breakdowns of drug convictions disproportionately affect minority populations?
+3. How, if at all, can policy be linked to the racial breakdown in Texas prisons?
 
 ## Personal Motivation
 I was born and raised in Portland, OR, and after my first year of college, my parents and brother moved to Texas. But since the move happened while I was already in college, I don't know many people in Texas, and I don't really spend much time outside my house when I do visit during breaks. Although I haven't spent much time in Texas myself, or perhaps because of that, I feel like it is important for me to understand the political landscape of the state in which I technically live. Additionally, one of my closest friend's father used to be incarcerated in Texas, so I would like to generally be more familiar with the landscape of Texas prisons.

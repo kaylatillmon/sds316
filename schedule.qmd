@@ -15,70 +15,70 @@ This schedule is a work in progress, so please check it frequently to make sure 
 
 Week of Sept 14
 
-- By W2.C1:
+-   By W2.C1:
 
-  - (skim) Selections from National Academies of Sciences, Engineering, and Medicine. 2016. Modernizing Crime Statistics: Report 1: Defining and Classifying Crime. Washington, DC: The National Academies Press. <https://www.nationalacademies.org/projects/DBASSE-CNSTAT-13-05> .
+    -   (skim) Selections from National Academies of Sciences, Engineering, and Medicine. 2016. Modernizing Crime Statistics: Report 1: Defining and Classifying Crime. Washington, DC: The National Academies Press. <https://www.nationalacademies.org/projects/DBASSE-CNSTAT-13-05> .
 
-  - Johnson, K. R. (2021). Two Regimes of Prison Data Collection. Harvard Data Science Review, 3(3). <https://doi.org/10.1162/99608f92.72825001>
+    -   Johnson, K. R. (2021). Two Regimes of Prison Data Collection. Harvard Data Science Review, 3(3). <https://doi.org/10.1162/99608f92.72825001>
 
-- Sign up for a discussion leader and tech skills slots on the [assignments](assignments.qmd#leading-class-discussion) page which has a link to the [Class Leader Schedule](https://docs.google.com/spreadsheets/d/1oqzW3GjvwdGwQpR57L7JWsS9Wvx-1Sehy_xs4PBAoBo/edit?gid=0#gid=0)
+-   Sign up for a discussion leader and tech skills slots on the [assignments](assignments.qmd#leading-class-discussion) page which has a link to the [Class Leader Schedule](https://docs.google.com/spreadsheets/d/1oqzW3GjvwdGwQpR57L7JWsS9Wvx-1Sehy_xs4PBAoBo/edit?gid=0#gid=0)
 
-- By W2.C2:
+-   By W2.C2:
 
-  - Install everything you need for the [tech stack](tech-stack.qmd). Come to office hours if you're struggling.
-  - Review the information you've received about git in previous classes and come prepared to discuss what git does and why we use it.
+    -   Install everything you need for the [tech stack](tech-stack.qmd). Come to office hours if you're struggling.
+    -   Review the information you've received about git in previous classes and come prepared to discuss what git does and why we use it.
 
 ## Week 3
 
 Week of Sept 21
 
-- By W2.C1:
+-   By W2.C1:
 
-  - Read Chapters 1 and 2 of *Predict and Surveil*. Bring your book to class.
+    -   Read Chapters 1 and 2 of *Predict and Surveil*. Bring your book to class.
 
-- By W2.C2:
+-   By W2.C2:
 
-  - Have a first draft of research questions ready to discuss
-  - Branch with the start of your project created
-  - Have (or have set a date for) meeting with your research cluster
+    -   Have a first draft of research questions ready to discuss
+    -   Branch with the start of your project created
+    -   Have (or have set a date for) meeting with your research cluster
 
 ## Week 4
 
 Week of Sept 28
 
-- By W4.C1
+-   By W4.C1
 
-  - Read Chapters 3 of *Predict and Surveil*. Bring your book to class.
+    -   Read Chapters 3 of *Predict and Surveil*. Bring your book to class.
 
-- By W4.C2
+-   By W4.C2
 
-  - Stage 1 of research project DUE. This class will be a partly open work session to troubleshoot the submission of this first part of the project.
+    -   Stage 1 of research project DUE. This class will be a partly open work session to troubleshoot the submission of this first part of the project.
 
 ## Week 5
 
 Week of October 5
 
-- By W5.C1
+-   By W5.C1
 
-  - Read Chapters 4 & 5 of *Predict and Surveil*. Bring your book to class.
+    -   Read Chapters 4 & 5 of *Predict and Surveil*. Bring your book to class.
 
-- By W5.C2
+-   By W5.C2
 
-  - Dataset identified & committed to your branch;
-  - **Four** initial questions asked & answered & committed
+    -   Dataset identified & committed to your branch;
+    -   **Four** initial questions asked & answered & committed
 
 ## Week 6 - MIDTERM WEEK
 
 Week of October 12
 
-- By W6.C1
+-   By W6.C1
 
-  - NO CLASS: Fall Break!
+    -   NO CLASS: Fall Break!
 
-- By W6.C2
+-   By W6.C2
 
-  - **Four** more questions asked & answered & committed
-  - Initial writing about what you're discovering
+    -   **Four** more questions asked & answered & committed
+    -   Initial writing about what you're discovering
 
 Midterm exams will happen between October 14 and 19 and must be in person! Use [this link](https://calendar.app.google/F31WsHELMJRGvW9z7) to schedule
 
@@ -86,24 +86,104 @@ Midterm exams will happen between October 14 and 19 and must be in person! Use [
 
 Week of October 19
 
-- By W7.C1
+-   By W7.C1
 
-  - Read Chapters 6-8 of *Predict and Surveil*. (This is a lot, but it includes the reading for fall break.)
+    -   Read Chapters 6-8 of *Predict and Surveil*. (This is a lot, but it includes the reading for fall break.)
 
-- By W7.C2
+-   By W7.C2
 
-  - NO CLASS TODAY (Nikko will be at a conference)
-  - Stage 2 deliverable due (PR open, and all tests passing!)
-    - NOTE: Make sure that you run `quarto preview` before you open your pull request. The entire site should be able to be rendered!
+    -   NO CLASS TODAY (Nikko will be at a conference)
+    -   Stage 2 deliverable due (PR open, and all tests passing!)
+        -   NOTE: Make sure that you run `quarto preview` before you open your pull request. The entire site should be able to be rendered!
 
 ## Week 8
 
 Week of October 26
 
-- By W8.C1
+-   By W8.C1
 
-  - Read Jefferson, Intro and Chapter 1. Bring your book to class.
+    -   Read Jefferson, Intro and Chapter 1. Bring your book to class.
 
-- By W8.C2
+-   By W8.C2
 
-  - first (rough-looking) data visualization idea (we will build a viz in class together)
+    -   first (rough-looking) data visualization idea (we will build a viz in class together)
+
+## Week 9
+
+*🗓️ Mon, Nov 2 & Weds, Nov 4*
+
+-   By W9.C1
+
+    -   Read Jefferson, Chapter 2
+
+-   By W9.C2
+
+    -   Make sure any old projects or extra files are cleaned up (fr, delete anything you need to!)
+    -   Add 1-2 first-draft visualizations to your project and 1-2 paragraphs of writing\
+
+## Week 10
+
+*🗓️ Mon, Nov 9 & Weds, Nov 11*
+
+-   By W10.C1
+
+    -   Read Jefferson, Chapter 3
+
+-   By W10.C2
+
+    -   Develop a full outline of your final project (we will discuss this in class)
+
+## Week 11
+
+*🗓️ Mon, Nov 16 & Weds, Nov 18*
+
+-   By W8.C1
+
+    -   Read Jefferson, Chapter 4
+
+-   By W8.C2
+
+    -   WORK DAY!
+
+## Week 12
+
+*🗓️ Mon, Nov 23 & Weds, Nov 25*
+
+-   By W12.C1
+
+    -   Stage 3 Due today! NO EXCEPTIONS!
+
+-   No Class Nov 25
+
+## Week 13
+
+*🗓️ Mon, Nov 30 & Weds, Dec 2*
+
+-   By W13.C1
+
+    -   Read Jefferson, Chapter 5
+
+-   By W13.C2
+
+    -   First Group Presentation
+
+## Week 14
+
+*🗓️ Mon, Dec 7 & Weds, Dec 9*
+
+-   By W13.C1
+    -   Second & Third Group Presentation
+-   By W13.C2
+    -   reading discussion
+
+## Week 15
+
+*🗓️ Mon, Dec 14*
+
+-   By CW15.C1
+
+    -   Final Presentations (ALL PROJECTS)
+
+## NOTE: Final Oral Exams
+
+These must be done *in person* and cannot be done during reading period or during the semester. Final oral exams will be given during final exam periods.

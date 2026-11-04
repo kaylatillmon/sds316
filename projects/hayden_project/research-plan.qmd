@@ -11,6 +11,11 @@ execute:
 2. How does residential segregation shape the geography of police encounters in Mecklenburg County? 
 3. How has the geographic distribution of racial and socioeconomic school segregation in Mecklenburg County changed over time?
 
+## Phase 2 Research Questions
+1. How do racial and socioeconomic disparities in school discipline vary across CMS?
+2. Are school-level suspension rates associated with law enforcement referrals and school-related arrests, and do these pattern differ across racial groups? 
+3. How does the geographic distribution of school racial and socioeconomic breakdowns vary with that of  Mecklenburg County?
+
 ## Personal Motivation
 Growing up in Charlotte, NC I experienced the Charlotte-Mecklenburg School (CMS) system firsthand. Charlotte has a deep rooted history of school desegregation, yet still has evident patterns of racial and economic geographical divide. Throughout the three CMS schools that I attended, it became clear that several inequities existed. I’m interested in exploring the history and data surrounding the extent to which these inequalities exist. I hope to look at the geography of schools and neighborhoods and see the connections that may exist between how young people experience and interact with the criminal legal system. Being able to put statistical meaning to the environment and experiences I grew up with will be eye-opening and motivating.  
 

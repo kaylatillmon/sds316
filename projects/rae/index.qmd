@@ -5,7 +5,7 @@ author:
 date: 2026-09-30
 description: "Using ensembles to quantify prison gerrymandering"
 categories: [Geography, Elections, Representation, Voting, Prison Gerrymandering, Vote Dilution]  #  These are some of the categories you might use
-image: "sds316/projects/template_rae/images/Prisonweb.jpg"  # Required thumbnail for grid view - CHANGE THIS (this file does not exist )
+image: "images/Prisonweb.jpg"  # Required thumbnail for grid view - CHANGE THIS (this file does not exist )
 ---
 
 ## Project Overview

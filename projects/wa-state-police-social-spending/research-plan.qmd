@@ -7,8 +7,8 @@ execute:
 
 ## Phase 1 Research Questions
 
-1. How do Washington state counties allocate their resources between social and police spending?
-2. Is higher police spending associated with lower crime rates? Is higher social spending associated with lower crime rates?
+1. How do Washington state counties allocate their resources between social and law enforcement spending?
+2. Is higher law enforcement spending associated with lower crime rates? Is higher social spending associated with lower crime rates?
 3. Which type of spending is most effective in reducing crime long-term?
 
 ## Personal Motivation

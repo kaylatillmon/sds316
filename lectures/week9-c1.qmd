@@ -1,0 +1,56 @@
+---
+title: "Carceral centralization and expansion"
+subtitle: "Digitize and Punish"
+description: "Lecture for Week9-C1"
+author: "Rae Traver-Fallick"
+topics:
+- "Racial Criminalization"
+- "History"
+categories: ["seminar"]
+format:
+  revealjs:
+    theme: [serif, seminar.scss]       
+    slide-number: true
+    transition: slide
+    controls: false
+---
+
+## Today's Agenda
+
+-   1-2 data visualizations and 1-2 paragraphs of writing are DUE Wednesday
+-   Rae's our discussion leader!
+
+<!--https://quarto.org/docs/presentations/revealjs/ -->
+
+# Discussion
+
+## Related Events
+
+-   [ICE ankle monitors in Springfield , Ohio](https://english.elpais.com/usa/2026-09-03/death-of-young-haitian-migrant-highlights-psychological-harm-of-ices-ankle-monitors.html)
+-   [An Ankle Monitor Gives a False Taste of Freedom](https://www.vera.org/news/an-ankle-monitor-gives-a-false-taste-of-freedom)
+
+### Relevance?
+
+The reading describes electronic ankle monitors as one way that the carceral apparatus extends its control into public and private life. Jefferson observes that these monitors are another way to micromanage devalued populations while appearing to address issues around prisoners rights and prison overcrowding. In separating urban space into inclusion and exclusion zones, electronic monitoring systems compound/codify existing urban divisions and reinforce geographic notions of criminality. 
+
+## Reading
+
+-   Urban governments abdicate control to companies and respond to resultant increased wealth inequality by criminalizing poverty
+-   Tech/tech-enabled companies fuel and capitalized on this inequality, building tools that both centralized and decentralized carceral control
+-   Beyond prisons, technology has become incorporated into the judicial system, further marginalizing devalued peoples
+-   Ultimately, creates a carceral system akin to a factory, where control, speed, and cost-effectiveness predominate
+-   Altogether, the "barbarity" of the system is veiled by a combination of concerns over public-safety, intellectual property laws, and the social-scientific research apparatus
+
+## Main Points
+
+-   Prisons have always been designed to micromanage certain populations (& the emergence of technology only made this easier and more expansive)
+-   Corporations seek/build new avenues of revenue to stave off stagnation; they aren't only complicit in the implementation of carceral tech, but actively shape society's hunger for it
+-   This effects more than just incarcerated individuals -- public space is increasingly under the influence of the carceral apparatus
+
+## Questions!
+
+-   Jefferson notes that there is a "scientific veil" that "conceals the barbarity" of the current carceral system, citing examples of social science researchers who assist in building risk algorithms, or journals dedicated to criminology and crime science research. What are the benefits of having academia involved in this work? What are the pitfalls? What responsibility do academic researchers have to engage/not engage in this kind of work? 
+
+-   What does Jefferson mean by "disciplinary society"? "Control society"? What are the distinctions they draw between the two and how has the digitization of incarceration caused the two to merge?
+
+-   How does the use of technology in court cases (particularly algorithms that assign defendants risk scores) undermine the notion of "innocent until proven guilty"? Is there a universe in which predictive technologies coexist with this standard?

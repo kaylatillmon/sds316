@@ -1,147 +1,357 @@
 ---
-title: "Stage 2: Initial Data Exploration"
+title: "Stage 2: Analyzing Data & Scaffolding the Report"
 author: 
   - "Julia Laney"
-date: 2026-10-7
+date: 2026-10-21
 ---
 
-# WA State Police & Social Spending
-## Project Stage 2
-### Research question: How does King County allocate its resources between police spending and social spending?
+I am using three datasets to explore my research questions about spending and crime rates in Washington state counties.
 
-Initially, I want to explore the dataset containing Washington state fiscal information. To simplify this exploration, I am looking at just the fiscal year 2025.
+### 1. How many offenses were logged in each county in 2025?
 
 ```{python}
-#python cell = CMD Shift I
-
-
+#dependencies
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from pyprojroot import here
 
-#importing dataset containing fiscal info by entity
-file_path = here('projects/wa-state-police-social-spending/_data/OSTAllEntity.csv')
-df = pd.read_csv(file_path)
+#importing crime dataset
+file_path = here('projects/wa-state-police-social-spending/_data/wa_crime_2025.csv')
+crime_2025 = pd.read_csv(file_path)
+```
+
+'crime_2025' is a dataset containing observations of all offenses logged by every police department in Washington in 2025. Each offense also notes the county corresponding to the department that logged it. I want to sum the number of offenses by county.
+
+```{python}
+crime_2025.columns.tolist()
 ```
 
 ```{python}
-#I want to look at just the 2025 fiscal year for now
+#cleaning 
 
-#the data included a space behind each year
-df["FiscalYear"] = df["FiscalYear"].str.strip()
+#dropping columns I'm not interested in
+crime_2025_clean = crime_2025.drop(columns=["Reference Number", "Victim", "ORI", "Location", "Agency"])
 
-df_2025 = df[df["FiscalYear"] == "FY 2025"]
+#remove caps lock
+crime_2025_clean["County"] = crime_2025_clean["County"].str.title()
+
+#let's get total counts of the number of the offenses in each county in 2025
+county_crime_2025 = (crime_2025_clean
+    .groupby("County")
+    .size()
+    .reset_index(name="Total Offenses"))
+
+#there's a county listed in crime called "state agency" I am dropping before joining
+county_crime_2025 = county_crime_2025[county_crime_2025["County"] != "State Agency"]
+
+#county_crime_2025 
 ```
 
-## How should I rigorously define "police spending" and "social spending"?
+I choose to drop a column called State Agency, which listed 620 offenses in 2025. After some brief research, I have not been able to determine what State Agency means in this context, but I suspect those may be offenses logged by the Washington State Patrol. Since I am looking at counties specifically, and I do not have spending data for "State Agency", I choose to drop this column.
 
-After just visually looking through some of the data, I'm seeing that a lot of spending items in this data are for municipal governments to support local law enforcement, courts, and crime prevention. This is making me consider that "police spending" may be a narrow term for this project, though I don't think I should expand this term to "criminal justice spending". A better term for this type of spending is something I am thinking about moving forward.
+### 2. How many offenses were violent and how many were nonviolent? 
 
-I used King County to obtain the spending items used in the mapping process because it is the largest county per capita and includes the city of Seattle. I figured it would likely have the most spending items, so when I applied the mapping to other counties, it would (hopefully) include all possible items.
-
-## What are the major spending categories? How can I classify each row of data into a category? 
+Now I'm going to use the 'crime_2025_clean' data that lists all offenses to sum by violent and nonviolent crime.
 
 ```{python}
-#now I want to look at spending categories
+#let's see all of the offenses
+crime_2025_clean["Offense"].unique()
 
-#using King county because it's the largest county in the state, and I noticed it had the most spending categories
-df_2025[df_2025["EntityTitle1"] == "King County"]["TaxTitle4"].unique()
+#now I'll divide based on FBI UCR definitions of violent & other crime
+violent_offenses = [
+    "Murder Non Negligent Manslaughter",
+    "Rape",
+    "Robbery",
+    "Aggravated Assault"]
+
+#sorting into violent and other
+crime_2025_clean["Crime Type"] = np.where(
+    crime_2025_clean["Offense"].isin(violent_offenses),
+    "Violent",
+    "Other")
+
+#sum types of crime by county
+county_crime_type = (crime_2025_clean
+    .groupby(["County", "Crime Type"])
+    .size()
+    .unstack(fill_value=0)
+    .reset_index())
+
+#see violent, other, and total all in one df
+county_crime_type["Total Offenses"] = (
+    county_crime_type["Violent"] +
+    county_crime_type["Other"])
+
+#drop 'State Agency' in this df too
+county_crime_type = county_crime_type[county_crime_type["County"] != "State Agency"]
+
+#county_crime_type
 ```
 
-Looking at the spending categories, I'll sort each into police/law enforcement spending, criminal justice legal system spending, social spending, and other spending by making a new column "SpendingCategory" in the 2025 dataframe. A portion of spending goes to courts, which I don't think should be included as police/law enforcement spending. For example, one spending item is judges' salaries, this shouldn't be included in police spending. This goes back to my earlier note about how I need to define "police/law enforcement" spending.
+Deciding how to define "violent crime" in this case was difficult because the offenses listed in this dataset are not specific. I initially wanted to use Washington state law's definition of a violent offense, but it defines violent crime by degree. For example, rape in the first degree is classified as a violent offense but rape in the second degree is not ([Source](https://app.leg.wa.gov/rcw/default.aspx?cite=9.94A.030)). My data simply lists 'Rape', so I don't feel that I have the ability use the Washington state legal definition without proper specification. I insteaed defined violent crime using the common crime statistics defintion, which is based on the FBI's Uniform Crime Reporting defintion. UCR lists the following as violent offenses (no matter the degree): murder and nonnegligent manslaughter, rape, robbery, and aggravated assault. I choose to label the categories "Violent" and "Other" because crimes that don't fall into the FBI's definition of violent crime are not necessarily nonviolent.
+
+### 3. How much do Washington state counties spend on law enforcement activities? How much do counties spend on social services?
 
 ```{python}
-#creating a new column with 3 categories of spending using a map
-category_map = {
-    "County Arterial Road Preservation": "Other",
-    "County Auditor Historical Document Preservation Assistance": "Other",
-    "County Autopsy Cost Assistance": "Other",
-    "County Criminal Justice Assistance": "Criminal Legal System",
-    "County DUI Enforcement Assistance": "Police/Law Enforcement",
-    "County Elected Prosecuting Attorney Salaries - State Contribution": "Criminal Legal System",
-    "County Juvenile Crime Enforcement Assistance": "Police/Law Enforcement",
-    "County Legal Financial Obligation Grants": "Criminal Legal System",
-    "County Superior Court Judge Salaries and Benefits - State Contribution": "Criminal Legal System",
-    "Court Appointed Special Advocate Coordinator Grants": "Social",
-    "Court Interpreter Assistance": "Other",
-    "District and Municipal Court Judges Salaries - State Contribution": "Criminal Legal System",
-    "Family and Juvenile Court Improvement Grants": "Social",
-    "Federal Flood Control Lease Payments": "Other",
-    "Federal Secure Rural Schools and Community Self-Determination Act Fund  - County Roads or Public Schools": "Other",
-    "Law Enforcement Officers and Firefighters Retirement System - Plan 2 State Contribution": "Other",
-    "Leasehold Excise Tax Sharing": "Other",
-    "Liquor Excise Tax Sharing": "Other",
-    "Liquor Profits Sharing": "Other",
-    "Marijuana Excise Tax": "Other",
-    "Motor Vehicle Fuel Tax Additional Sharing - County": "Other",
-    "Motor Vehicle Fuel Tax Sharing - County": "Other",
-    "Multimodal Transportation Account Sharing - County": "Other",
-    "Parents Representation Program": "Social",
-    "Public Defense Improvement Grants": "Criminal Legal System",
-    "Public Utility District Privilege Tax Sharing": "Other",
-    "Runaway and At-Risk Youth (Becca) County Juvenile Court Costs": "Social",
-    "State Lodging Tax Sharing": "Other",
-    "State Payments in Lieu of Taxes - Natural Area Preserves and Natural Resources Conservation Areas": "Other",
-    "State Payments of Deferred Property Tax": "Other",
-    "State Vessel Registration Fees": "Other",
-    "Streamlined Sales and Use Tax Mitigation Payments": "Other",
-    "Timber Excise Tax Sharing": "Other"
-}
+file_lawenf = here("projects/wa-state-police-social-spending/_data/fit_lawenforcementactivities.csv")
+fit_lawenforcement = pd.read_csv(file_lawenf, skiprows=6)
 
-df_2025["SpendingCategory"] = df_2025["TaxTitle4"].map(category_map)
-
-#let's check that this categorizing worked
-df_2025[["EntityTitle1", "TaxTitle4", "Amount6", "SpendingCategory"]] #it did!
-
-#some missing values are present here because the first observations in the df correspond to Aberdeen (a city) and the cities and counties have some naming differences for the same spending items
-print(df_2025.head(n=15))
-```
-
-## What spending category did King County spend the most on in 2025?
-
-```{python}
-#making a copy of the 2025 df looking just at King county
-df_2025_king = df_2025[df_2025["EntityTitle1"] == "King County"].copy()
-
-print(df_2025_king.head(n=15))
+file_social = here("projects/wa-state-police-social-spending/_data/fit_socialservices.csv")
+fit_social = pd.read_csv(file_social, skiprows=6)
 ```
 
 ```{python}
-#the integers in Amount6 were being treated as strings 
-#df_2025["Amount6"] = (df_2025["Amount6"].str.replace(",","").str.replace("(", "-")
- #   .str.replace(")", "").astype(float)) #the df used () to represent negative numbers
+#sort into counties
+fit_le_counties = fit_lawenforcement[fit_lawenforcement["Governments/$ Dollars"].str.endswith("County", na=False)]
 
-#remaking df after cleaning Amount6
-df_2025_king = df_2025[df_2025["EntityTitle1"] == "King County"].copy()
+#39 counties total in WA
+#len(fit_le_counties) #output is 39!
 
-#finding the totals of each spending category
-king_cat_totals = (df_2025_king.groupby("SpendingCategory")["Amount6"].sum())
+#social services data
+fit_social_counties = fit_social[fit_social["Governments/$ Dollars"].str.endswith("County", na=False)]
 
-print(king_cat_totals)
-```
-
-These numbers look really off! After reading more about the source of this data, this appears to be showing money that Washington distributes to local governments through taxes, revenue sharing programs, and grants. I initially understood the data as budgetary information.
-
-## Is this data relevant to my project?
-
-Maybe? This data doesn't capture police spending vs. social spending but contains information about how much criminal justice funding each county receives from the state. This is not really a main point of my project but it could be a supplementary point.
-
-```{python}
-#taking a look at pierce county
-df_2025_pierce = df_2025[df_2025["EntityTitle1"] == "Pierce County"].copy()
-
-#same process I did for King
-pierce_cat_totals = (df_2025_pierce.groupby("SpendingCategory")["Amount6"].sum())
-
-print(pierce_cat_totals)
+#39 counties total in WA
+#len(fit_social_counties) #output is 39!
 ```
 
 ```{python}
-#per capita funding
-# pierce_pc = pierce_cat_totals["Criminal Legal System"] / 946288
-# king_pc = king_cat_totals["Criminal Legal System"] / 2344939
+#cleaning dollar values in the data
+fit_le_counties["2025"] = (fit_le_counties["2025"]
+    .str.replace("$", "", regex=False)
+    .str.replace(",", "", regex=False))
+fit_le_counties["2025"] = pd.to_numeric(fit_le_counties["2025"], errors="coerce" ) #some unexpected values in the dollar column, so replacing these with NaN
 
-# print("Pierce County:", pierce_pc)
-# print("King County:", king_pc)
+#cleaning dollar values in the data
+fit_social_counties["2025"] = (fit_social_counties["2025"]
+    .str.replace("$", "", regex=False)
+    .str.replace(",", "", regex=False))
+fit_social_counties["2025"] = pd.to_numeric(fit_social_counties["2025"], errors="coerce" ) #some unexpected values in the dollar column, so replacing these with NaN
 ```
 
-In 2025, Pierce County received about $12.01 per capita in distributions related to the criminal legal system. King County received about $11.12 per capita in distributions related to the criminal legal system. It's important to note that this is just state funding and not the counties' own criminal legal system spending. I'm curious - is this difference an effect of each counties' crime rates?
+In the law enforcement spending dataset, law enforcement activities include police operations, traffic policing, administration, crime prevention, training, facilities, and property and evidence room. In the social spending dataset, social services include homeless services, mental health services, public safety services, chemical dependency services, welfare, child services, aging and disability services, veterans services, developmental disability services, and domestic violence services.
+
+### 4. Do counties spend more on law enforcement activities or social services, on average?
+
+```{python}
+#dropping the columns that I don't want to be present in the eventual joined df
+fit_le_counties = fit_le_counties[["Governments/$ Dollars", "2025"]]
+
+fit_social_counties = fit_social_counties[["Governments/$ Dollars", "2025"]]
+
+#these dataframes had a different name for the 'County' column
+fit_le_counties = fit_le_counties.rename(columns={
+    "Governments/$ Dollars": "County",
+    "2025": "Law Enforcement Spending"})
+
+fit_social_counties = fit_social_counties.rename(columns={
+    "Governments/$ Dollars": "County",
+    "2025": "Social Spending"})
+
+fit_le_counties["County"] = fit_le_counties["County"].str.replace(" County", "", regex=False)
+
+fit_social_counties["County"] = fit_social_counties["County"].str.replace(" County", "", regex=False)
+
+spending = fit_le_counties.merge(fit_social_counties,on="County")
+
+#spending[["Law Enforcement Spending", "Social Spending"]].mean()
+```
+
+In 2025, Washington counties spent an average of $24,960,060 on law enforcement and $65,967,350 on social services.
+
+Now I am joining together the spending data, crime data, and population data.
+
+```{python}
+#population data
+file_pop = here("projects/wa-state-police-social-spending/_data/populations.csv")
+population = pd.read_csv(file_pop)
+
+#only want county name
+population["County"] = population["County"].str.removeprefix(".")
+population["County"] = population["County"].str.replace(" County, Washington", "", regex=False)
+
+#just 2025
+population = population[["County", "2025"]]
+#rename year for clarity in joined df
+population = population.rename(columns={"2025": "2025 Population"})
+
+#removing comma and converting from string
+population["2025 Population"] = (population["2025 Population"].str.replace(",", "", regex=False))
+population["2025 Population"] = pd.to_numeric(population["2025 Population"], errors="coerce" )
+
+#population
+```
+
+```{python}
+#joining crime, spending, and population dfs
+county_data_2025 = (fit_le_counties
+    .merge(fit_social_counties, on="County", how="outer")
+    .merge(county_crime_type, on="County", how="outer")
+    .merge(population, on="County", how="outer"))
+
+#county_data_2025
+#county_data_2025[county_data_2025.isna().any(axis=1)]
+```
+
+Benton, Chelan, Grant, and Thurston Counties do not have spending data. This is consistent with the data source which explains that "These governments historically report in this dollar category, but have not filed or are currently editing their FY 2025 filing". These counties will be excluded from analysis for now but hopefully can be included later. 
+
+### 5. Do counties with higher police spending have more offenses?
+
+```{python}
+#dropping the 4 counties with missing spending data
+plot = county_data_2025[["Law Enforcement Spending", "Total Offenses"]].dropna()
+
+#making a scatterplot to represent law enforcement spending and total offenses
+x = plot["Law Enforcement Spending"]
+y = plot["Total Offenses"]
+plt.scatter(x, y)
+
+#line of best fit
+m, b = np.polyfit(x, y, 1)
+plt.plot(x, m*x + b)
+
+plt.xlabel("Law Enforcement Spending")
+plt.ylabel("Total Offenses")
+plt.title("Law Enforcement Spending and Total Offenses by Washington State County (2025)")
+plt.show()
+```
+
+This scatterplot shows a strong positive relationship between law enforcement spending and total offenses by county. This relationship can be explained by population differences.
+
+### 6. What's the crime rate in each Washington state county?
+
+```{python}
+#calculating crime rate (crime rate = numnber of crimes per 100k people)
+county_data_2025["Offenses Per 100k (crime rate)"] = (county_data_2025["Total Offenses"] / county_data_2025["2025 Population"]) * 100000
+
+#county_data_2025
+
+#county_data_2025[["County", "Offenses Per 100k (crime rate)"]].sort_values("Offenses Per 100k (crime rate)", ascending=False)
+```
+
+Spokane, Garfield, and Benton counties have the highest crime rates. Crime rate captures the number of offenses per 100,000 people, calculated using population and number of total offenses.
+
+### 7. Do counties with higher crime rates have more law enforcement spending?
+
+```{python}
+#per capita spending
+county_data_2025["Law Enforcement Spending Per Capita"] = (county_data_2025["Law Enforcement Spending"] / county_data_2025["2025 Population"])
+
+county_data_2025["Social Spending Per Capita"] = (county_data_2025["Social Spending"] / county_data_2025["2025 Population"])
+
+#county_data_2025
+```
+
+```{python}
+#scatterplot
+plot2 = county_data_2025[["Offenses Per 100k (crime rate)", "Law Enforcement Spending Per Capita"]].dropna()
+
+x = plot2["Offenses Per 100k (crime rate)"]
+y = plot2["Law Enforcement Spending Per Capita"]
+
+plt.scatter(x, y)
+
+#line of best fit
+m, b = np.polyfit(x, y, 1)
+plt.plot(x, m*x + b)
+
+plt.xlabel("Offenses per 100,000 People")
+plt.ylabel("Law Enforcement Spending Per Capita")
+plt.title("Crime Rate and Law Enforcement Spending by Washington State County (2025)")
+plt.show()
+```
+
+There is a weak relationship between crime rates and law enforcement spending per capita. The line of best fit is very slightly negatively sloped. Counties are widely dispersed around the line of best fit, which suggests that counties with higher crime rates do not always spend more per capita on law enforcement. Some counties stand out on this plot as they have high per capita law enforcement spending relative to the rest of the state's counties.
+
+```{python}
+#correlation coefficient
+plot2["Offenses Per 100k (crime rate)"].corr(plot2["Law Enforcement Spending Per Capita"])
+```
+
+The correlation coefficient between crime rate and law enforcement spending per capita is -0.037, meaning there's essentially no linear relationship between these variables.
+
+### Do counties with higher crime rates have more social spending?
+
+```{python}
+#scatterplot
+plot3 = county_data_2025[["Offenses Per 100k (crime rate)", "Social Spending Per Capita"]].dropna()
+
+x = plot3["Offenses Per 100k (crime rate)"]
+y = plot3["Social Spending Per Capita"]
+
+plt.scatter(x, y)
+
+#line of best fit
+m, b = np.polyfit(x, y, 1)
+plt.plot(x, m*x + b)
+
+plt.xlabel("Offenses per 100,000 People")
+plt.ylabel("Social Spending Per Capita")
+plt.title("Crime Rate and Social Spending by Washington State County (2025)")
+plt.show()
+```
+
+There is a negative relationship between crime rates and social spending per capita. The line of best fit is negatively sloped. Counties with higher crime rates appear to generally spend less per capita on social services. There is a lot of variation among counties which suggests that crime rates alone do not explain differences in social spending.
+
+```{python}
+#correlation coefficient
+plot3["Offenses Per 100k (crime rate)"].corr(plot3["Social Spending Per Capita"])
+```
+
+The correlation coefficient between crime rate and law enforcement spending per capita is -0.226, meaning there's a weak negative realtionship between the variables.
+
+### 8. Do counties with higher law enforcement spending have lower violent crime rates?
+
+```{python}
+#calculating violent crime rate
+county_data_2025["Violent Offenses Per 100k (crime rate)"] = (county_data_2025["Violent"] / county_data_2025["2025 Population"]) * 100000
+```
+
+```{python}
+plot4 = county_data_2025[["Law Enforcement Spending Per Capita", "Violent Offenses Per 100k (crime rate)"]].dropna()
+
+x = plot4["Law Enforcement Spending Per Capita"]
+y = plot4["Violent Offenses Per 100k (crime rate)"]
+
+plt.scatter(x, y)
+
+#line of best fit
+m, b = np.polyfit(x, y, 1)
+plt.plot(x, m*x + b)
+
+plt.xlabel("Law Enforcement Spending Per Capita")
+plt.ylabel("Violent Offenses per 100,000 People")
+plt.title("Law Enforcement Spending and Violent Crime Rate by Washington State County (2025)")
+plt.show()
+```
+
+There is a positive relationship between law enforcement spending per capita and violent crime rates, which challenged my assumption that greater spending would be associated with lower violent crime. There is an extreme outlier in the upper right corner of the plot, which appears to be influencing the relationship. 
+
+```{python}
+#identify the outlier
+county_data_2025.loc[county_data_2025["Violent Offenses Per 100k (crime rate)"].idxmax()]
+```
+
+The outlier is Garfield County, which happens to be the smallest county (by population) in Washington state. This exposes a limitation in my calculation of crime rate - a county with a small population will get a high crime rate even with very few offenses.
+
+### Do counties with higher social spending have lower violent crime rates?
+
+```{python}
+plot5 = county_data_2025[["Social Spending Per Capita", "Violent Offenses Per 100k (crime rate)"]].dropna()
+
+x = plot5["Social Spending Per Capita"]
+y = plot5["Violent Offenses Per 100k (crime rate)"]
+
+plt.scatter(x, y)
+
+#line of best fit
+m, b = np.polyfit(x, y, 1)
+plt.plot(x, m*x + b)
+
+plt.xlabel("Social Spending Per Capita")
+plt.ylabel("Violent Offenses per 100,000 People")
+plt.title("Social Spending and Violent Crime Rate by Washington State County (2025)")
+plt.show()
+```
+
+This plot shows a slightly negative relationship between social spending per capita and violent crime rates, meaning higher social spending per capita is associated with a lower violent crime rate. Once again, Garfield County is a major outlier.

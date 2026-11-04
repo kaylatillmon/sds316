@@ -1,0 +1,33 @@
+on:
+  pull_request:
+    branches: [main]
+
+name: PR Check
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        # If the build is failing on requirements, make sure you've exported your requirements!
+        run: |
+          pip install -r requirements.txt 
+          
+      - name: Render Quarto Project
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          to: html
+          # This will run `quarto render` in the root directory. 
+          # It will fail if any student's qmd file contains errors.

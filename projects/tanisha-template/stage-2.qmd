@@ -5,19 +5,179 @@ execute:
   code-fold: true
 ---
 
-How many rows are in the dataset? 2436
 
-What is the total number of adults arrested in 2023? 810388
-- in 2024? 827594
-- in 2025? 831210
+```{python}
+import pandas as pd
+from pyprojroot import here
+```
 
-What was the change in number of arrests between 2023 and 2024? 17206 more arrests in 2024 compared to 2023
+```{python}
+file_path = here("projects/tanisha-template/data/export.csv")
+april26 = pd.read_csv(file_path, sep=',')
+april26.head()
+```
 
-What was the change in number of arrests between 2024 and 2025? 3616 more arrests in 2025 compared to 2024
+
+```{python}
+april26.info()
+```
+
+## QUESTION #1: How many people are in the dataset? As of April 2026, how many people are currently incarcerated in the state of Texas?
+```{python}
 
 
+# total rows in dataset
+total_rows = len(april26)
+
+print("Total Rows ", total_rows)
+
+incarcerated_percent = total_rows / 31709821 * 100
+print(incarcerated_percent)
+
+```
+
+There are 142440 people currently in Texas prisons. For reference, according to 2025 Census Estimates, Texas' population is roughly 31,709,821. This means 0.45% of Texas' population is currently incarcerated.
+
+## QUESTION #2: How many people in the dataset are women?
+```{python}
+
+# how many people in prison in Texas are women? (where Gender = F)
+count_f = len(april26[april26['Gender'] == 'F']) 
 
 
+# percent count
+gender_breakdown = count_f / total_rows * 100
+
+print("Number of women: ", count_f)
+print(f"Percentage of women: ",  gender_breakdown)
+```
+
+The number of women is 11289 out of 142440 total peope. The percentage of women is 7.9 in this dataset. Quite a small percentage.
+
+
+## QUESTION #3: What is the racial breakdown of the dataset?
+```{python}
+#grouping by race and seeing how big the categories are
+race_groups = april26.groupby('Race').size()
+
+race_groups
+```
+
+Okay so this means there are 682 Asian people, 46270 Black people, 48395 Hispanic people, 67 Indian (Native American) people, and 46959 white people.
+There are also the more ambiguous categories of 58 "other", and 8 unidentified.
+
+## QUESTION #4: How many different correctional facilities are listed in the dataset?
+```{python}
+facility_groups = april26.groupby('Current Facility')
+print(facility_groups.ngroups)
+print(facility_groups.size())
+
+facility_groups.size().sort_values(ascending=False)
+```
+
+There are 107 different correctional facilities in this dataset? Wow! The most populated facilities are Allred, Coffield, Clements, Beto, and Robertson. The least populated facilities are Goodman, Chasefield Wilderness, Baten, West Texas Hospital, and Santa Maria Baby Bonding.
+
+## QUESTION #5: How do the racial breakdowns compare to the rest of the state?
+```{python}
+
+# how many people in prison in Texas are women? (where Gender = F)
+count_white = len(april26[april26['Race'] == 'W']) 
+count_black = len(april26[april26['Race'] == 'B'])
+count_asian = len(april26[april26['Race'] == 'A'])
+count_hisp = len(april26[april26['Race'] == 'H'])
+count_native = len(april26[april26['Race'] == 'I'])
+
+
+# total rows in dataset
+total_rows = len(april26)
+
+# percent count
+white_breakdown = count_white / total_rows * 100
+black_breakdown = count_black / total_rows * 100
+asian_breakdown = count_asian / total_rows * 100
+hisp_breakdown = count_hisp / total_rows * 100
+native_breakdown = count_native / total_rows * 100
+
+
+print(f"Percentage of white people: ",  white_breakdown)
+print(f"Percentage of Black people: ",  black_breakdown)
+print(f"Percentage of Asian people: ",  asian_breakdown)
+print(f"Percentage of Hispanic people: ",  hisp_breakdown)
+print(f"Percentage of Native people: ",  native_breakdown)
+```
+
+Percentage of white people:  32.96756529064869 or 32.97%
+Percentage of Black people:  32.48385285032294 or 32.48%
+Percentage of Asian people:  0.4787980904240382 or .48%
+Percentage of Hispanic people:  33.97570907048582 or 33.98%
+Percentage of Native people:  0.04703734905925302 or .05%
+
+As of 2025, [US Census Estimates](https://www.census.gov/quickfacts/fact/table/TX/PST045225) say that the racial breakdown of Texas is roughly:
+Percentage of white people:  37.3%
+Percentage of Black people:  13.4%
+Percentage of Asian people:  6.7%
+Percentage of Hispanic people:  40.9%
+Percentage of Native people:  1.9%
+
+Notable, although perhaps predictable, the percentage of Black people currently incarcerated is much larger than the percentage of Black people  in the general Texas population.
+
+## QESTION #6: what are the criminal offenses people are primarily in for?
+```{python}
+#grouping by offense and seeing how big the categories are
+offense_groups = april26.groupby('TDCJ Offense')
+print(offense_groups.ngroups)
+print(offense_groups.size())
+
+offense_groups.size().sort_values(ascending=False)
+```
+
+It seems like the most common offenses are murder, aggravated robbery, aggravated sexual assult with a child, aggravated assault with a deadly weapon, and robbery. 
+
+## QUESTION #7: how much of the incarcerated population is carrying some sort of drug charge? (not including DWI/DUI)
+```{python}
+#looking for sub(substances), drug(drug), cs(controlled substances), cocaine, and meth
+#couldn't find which offense code corresponds to drug convictions specifically....
+drug_df = april26[april26['TDCJ Offense'].str.contains('sub|drug|cs|c/s|cocaine|meth', case=False, na=False)]
+drug_df
+```
+
+```{python}
+drug_breakdown = len(drug_df) / total_rows * 100
+drug_breakdown
+```
+
+The new dataset has 21004 rows, meaning 21004 people are incarceration for some sort of drug charge. This accounts for 14.7% of the entire dataset. This is interesting, because the individual charges are slightly different, but when grouped together, it paints a more illuminating picture than strictly looking at the individual offenses.
+
+## QESTION #8: How does this the racial breakdown of drug convictions compare to the racial breakdown of the dataset as a whole?
+
+```{python}
+#racial breakdown of drug conviction subset
+count_white2 = len(drug_df[drug_df['Race'] == 'W']) 
+count_black2 = len(drug_df[drug_df['Race'] == 'B'])
+count_asian2 = len(drug_df[drug_df['Race'] == 'A'])
+count_hisp2 = len(drug_df[drug_df['Race'] == 'H'])
+count_native2 = len(drug_df[drug_df['Race'] == 'I'])
+
+
+white_breakdown2 = count_white2 / len(drug_df) * 100
+black_breakdown2 = count_black2 / len(drug_df) * 100
+asian_breakdown2 = count_asian2 / len(drug_df) * 100
+hisp_breakdown2 = count_hisp2 / len(drug_df) * 100
+native_breakdown2 = count_native2 / len(drug_df) * 100
+
+
+print(f"Percentage of white people: ",  white_breakdown2)
+print(f"Percentage of Black people: ",  black_breakdown2)
+print(f"Percentage of Asian people: ",  asian_breakdown2)
+print(f"Percentage of Hispanic people: ",  hisp_breakdown2)
+print(f"Percentage of Native people: ",  native_breakdown2)
+```
+
+Percentage of white people:  43.08
+Percentage of Black people:  25.45
+Percentage of Asian people:  0.32
+Percentage of Hispanic people:  31.06
+Percentage of Native people:  0.04
 
 
 

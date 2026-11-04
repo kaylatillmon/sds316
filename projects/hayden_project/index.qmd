@@ -1,12 +1,19 @@
 ---
 title: "Hayden's Research Project"
 author: "Hayden Steinmann"
-date: "2026-09-30"
-description: "Initial Project Overview"
+date: "2026-10-21"
+description: "An exploration of the implications of racial and socioeconomic inequalities surrounding school disciplinary action throughout Mecklenburg County"
 categories: "[Geography, Segregation, Discipline, School]"
 image: "images/schoolsegregation.jpg"
 ---
 
 ## Project Overview
 
-The goal of this project is to examine the relationship between the geographic patterns of school segregation and how this overlaps with juvenile and young-adult involvement within the criminal legal system. The project will have a specific focus on Mecklenburg County in North Carolina. I plan to first investigate how the racial and socioeconomic geographic disbursement of Mecklenburg County has changed over time. Using this information, I want to then look at how school boundaries have been drawn and adjusted over time creating this environment of school segregation (particularly following the end of court-ordered busing). I will then look to see how this correlates to juvenile criminal legal system activity as well as general school characteristics (school budget, attendance, graduation rates, student and teacher demographic, and suspension/expulsion rates). I hope to identify patterns in how school and neighborhood geography may be connected to how young people throughout Mecklenburg County interact with the criminal legal system.
+The goal of this project is to examine how racial and socioeconomic inequalities in school discipline and law enforcement contact vary across Charlotte Mecklenburg Schools (CMS). I'm also looking to explore how these patterns relate to the geographic distribution of schools in Mecklenburg County. I'm interested in how these findings connect to the historical contextualization surrounding school segregations and other inequalities. I will begin by examining the racial and economic breakdown of schools and then examine how suspension rates, law enforcement referrals, and school-related arrests interact with these demographic features. From a geographic lens, I plan to map these demographic differences and connect this to broader historical and institutional systems. While my initial research questions were hoping to consider neighborhood segregation, school boundaries, and juvenile/young-adult involvement in the criminal legal system, after reviewing the data I have access to these factors may be beyond the scope of this project. Ultimately, I hope to identify descriptive patterns specific to Mecklenburg County that reveal a relationship between school demographics, disciplinary practices, law enforcement contact, and geography, while also contacting these patterns to larger systems.
+
+### Components
+Stage 2 Deliverables
+
+- [Research Plan](research-plan.qmd) 
+- [Exploratory Data Analysis](stage2-data.qmd)
+- [Initial draft writing & reflection](stage2-writing.qmd)

@@ -1,0 +1,157 @@
+---
+title: Initial Questions
+author: Catherine Xu
+execute:
+    code-fold: true
+---
+
+# Stage 2.1: Initial Explorations of the Dataset.
+::: callout-note
+:::
+
+
+## About
+
+
+### Dataset
+The dataset I am using is [The Intersection of Domestic Violence, Race, Ethnicity, and Sex](https://www.icpsr.umich.edu/web/NACJD/studies/8451) from NYC Open Data. It is stored in my `dataset` folder. Its associated data dictionary that provides a brief overview of the dataset and how the data are collected is also stored in my `dataset` folder.
+
+
+### Research Question
+Based on the information provided in this dataset, what role, if any, does both the race and the sex of the suspect *and* the victim play in the occurrence of domestic violence incident reports in New York City?
+
+
+## Q1: race of victim
+I am particularly curious about the race of the victim in these domestic violence reports. I wonder if there is any correlation between the race of the victim and how often/if police file an incident reports.
+```{python}
+import pandas as pd
+from pyprojroot import here
+
+
+file_path = here("projects/catherine project revamp//dataset/GBVdata.csv")
+df = pd.read_csv(file_path)
+
+
+# breakdown of victim race
+count_vr = df["Victim Race"].value_counts()
+
+
+print(count_vr)
+```
+
+
+From the value counts of each unique observation/racial group in this dataset, most of the victims in domestic violence incident reports were Black, with white victims following somewhat closely behind. There is quite a jump between victims identifying as white and victims identifying as 'other' (might need to check for documentation on what 'other' entails or if it just means the victim declined to report their race). Whether or not these counts are proportional to the total population of Black people and white people across all boroughs of NYC, given that this dataset was last updated in 2024, is something I will be looking into as I don't live there and don't have concrete data on the racial demographics of the city (this could also vary widely by borough).
+
+
+## Q2: race of suspect
+
+
+```{python}
+# breakdown of suspect race
+count_sr = df["Suspect Race"].value_counts()
+
+
+print(count_sr)
+```
+
+
+Most of the suspects in NYC domestic violence incident reports were also Black and white, but there seems to be a slightly wider gap between the number of Black suspects and white suspects (195.8K - 121.1K for Black and white victims, respectively versus 190.8K - 104.4K for Black and white suspects, respectively). I don't think this is a huge gap/disparity, but there do seem to be more Black suspects and victims that get reported to the NYPD in general.
+
+
+
+
+## Q3: victim-suspect race correlation/patterns?
+I want to see if there is any correlation between the race of both suspect and victim in concert with each other. Is it possible that, in cases where the victim is white and/or the suspect is Black, the incident is more likely to be reported? Based purely off my intuition of the role racial bias may play in police reports.
+
+
+```{python}
+vsr_counts = (
+df.groupby(["Victim Race", "Suspect Race"]).size().sort_values(ascending=False)
+)
+
+
+print(vsr_counts)
+```
+
+
+From the counts of victim-suspect race pairings, the most commonly reported seem to be victims and suspects of the same race, or where both victim and suspect are 'other' (again, I have to look into what this means, ie racial group not included in other observations or lack of identification?). The next most common occurrence seems to be a white victim and Black suspect, but this is much less common than incidents where victim and suspect are both the same race.
+
+
+## Q4: borough?
+I want to see what the breakdown of the number of incidents are per borough, which will lead into my next question about the proportion of suspects of a given race per borough.
+```{python}
+# number of incidents per borough?
+count_borough = df["Borough Name"].value_counts()
+
+
+print(count_borough)
+```
+
+
+Most of the incident reports seem to have occurred in the Bronx, with Brooklyn following very closely. There was a bit of a gap between Brooklyn, Queens, and Manhattan in that order, and then Staten Island is last by quite a large margin. I will find NYC's 2020 census data before the next stage to see how these numbers map onto racial demographics, given that most victims and suspects in this dataset were Black.
+
+
+## Q5: intimate relationship?
+I thought it might be a good idea to see how many of these incidents occurred within an established intimate/domestic relationship. I'm not sure yet how I want to relate this to race, but it is an interesting variable and I'm curious as to why they included it/what their definition of domestic violence is? Is the definition in this dataset extended to be between family members (ie. parent-child) too?
+```{python}
+# intimate relationship
+count_ir = df["Intimate Relationship Flag"].value_counts()
+
+
+print(count_ir)
+```
+
+
+I'm not entirely sure why some observations were inputted as 'YES' and some were entered as 'Yes', and same for 'NO'/'No'. I might do some work with the data to combine these. Most of the incidents that were reported were within the bounds of an intimate relationship, but it is about proportional with the number of incidents that weren't. I want to look more thoroughly into the definitions they are using for these domestic violence crimes, because i'm assuming they are extending these crimes to include (reported) abuse that happens between parents and children/other blood-related or live-in family members.
+
+
+## Q6: Offense Type
+To clarify my previous question, I obtained the counts of each specific type of domestic violence offense/crime.
+```{python}
+# offense type
+count_ot = df["Offense Type"].value_counts()
+
+
+print(count_ot)
+```
+
+
+The vast majority of the offenses were 'DIRs', which means general domestic incident reports. Only a few were specifically labeled felony assault or rape, which doesn't really elucidate anything for my research question but does highlight how often something is reported as rape or sexual assault. Most of these were general domestic reports, but this is very vague and could imply a lot of different types of abuse (very few seem to have been labeled a felony assault, which I interpret to be strictly physical in nature).
+
+
+## Q7: Poverty
+I need literature on the correlation between poverty, race, and the frequency of domestic violence. I have an intuitive belief (from lived experience and observation) that poverty has a lot to do with how often domestic violence occurs, and based on historical discrimination and structural violence that persists to this day it is inextricably tied up with race as well.
+```{python}
+# poverty counts
+count_poverty = df["Poverty"].value_counts()
+
+
+print(count_poverty)
+
+
+# count total rows
+total_rows = len(df)
+
+
+# poverty proportion
+pov_proportion = count_poverty / total_rows * 100
+print(pov_proportion)
+```
+
+
+202,325 of the reports in this dataset, which constitutes about 42% of all reports in this dataset, had a categorical indicator of '1' == Yes for a high poverty rate. I am not sure if the rows lacking a '1' imply the report occurred an area with a low poverty rate or if there was simply not enough information, but a significant proportion of these incidents tended to be in areas with high poverty rates.
+
+
+## Q8: Race and Sex
+```{python}
+victim_proportions = (pd.crosstab(df["Victim Race"], df["Victim Sex"], normalize="all") * 100)
+
+
+suspect_proportions = (pd.crosstab(df["Suspect Race"], df["Suspect Sex"], normalize="all") * 100)
+
+
+print(victim_proportions, suspect_proportions)
+```
+
+
+I will write more about these variables later but wanted to see the relationship between victim sex and race alongside suspect sex and race.
