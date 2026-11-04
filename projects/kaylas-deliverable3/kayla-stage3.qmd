@@ -1,0 +1,355 @@
+``` {python}
+import pandas as pd
+from pyprojroot import here 
+
+#loading the data sets
+file_path = here("projects/kaylas-deliverable3/_data/populations_states.csv")
+incarerated_pop = pd.read_csv(file_path)
+
+# what do the first 10 rows look like?
+incarerated_pop.head()
+
+# just wondering what columns exist in the dataframe
+incarerated_pop.columns
+
+# just wondering the how many cols and rows there are
+incarerated_pop.shape
+# now onto my first question: what states are represented in the data frame
+incarerated_pop['state'].unique()
+# okay so we can see that all 50 states are represented, Fedeeral and DC are not technically states so I need to think about how to exclude that in my analysis. 
+
+# need to know what year range this data set contains so my other data sets can follow / are consistent with these values
+
+# second question: what range does this data set contain
+min_year_incar_pop = incarerated_pop['date'].min()
+max_year_incar_pop = incarerated_pop['date'].max()
+
+print(max_year_incar_pop, min_year_incar_pop)
+
+#okay so this data ranges from 1990 to 2022. if i decide to use this dataset, my other data sets should be around the same period ... or maybe I can look at one year or one range of year specifically. I don't know yet. 
+
+# I noticed when I was looking at head, shape, and columns that there's data vs inferred, i should probably look at how much of this data is inferred vs well ... data, for my research, I want as much concrete data as possible so I would probably like to remove the inferred data. 
+
+# my third question is just that, how much of this data is inferred vs raw. 
+print(incarerated_pop['data_or_inferred'].value_counts())
+
+# okay so more raw data than inferred ... that's good and I would still be able to work with a good bit of data even if inferred is removed which is good to know. 
+
+# My last question is which 10 states have the largest Black incarcerated populations, on average?
+largest_black_population = incarerated_pop.groupby('state')['incarcerated_black'].mean().sort_values(ascending = False)
+
+print((largest_black_population).head(11))
+
+# this is across 1990 and 2022, I am not entirely sure if I want to do a speciifc year or a range of year, but just to see, let's cut it down to just 2022! 
+
+# to do this we have to do some light data cleaning since I saw that year is a string 
+incarerated_pop['date'] = pd.to_datetime(incarerated_pop['date'])
+
+most_recent_year = incarerated_pop[incarerated_pop['date'].dt.year == 2022]
+
+largest_black_population_2022 = most_recent_year.groupby('state')['incarcerated_black'].mean().sort_values(ascending = False)
+
+largest_black_population_2022.head(11)
+
+
+```
+
+okay, for this stage I found out that there are multiple observations for one year which is why I took an average. I need to figure out if that is what is right for my project or if I should take the most recent data. But I do think this dataset is useful and clean so I will continue working with it. 
+
+Other than that, we found out that the average Black incarerated population across multiple 2022 observations is highest in Texas, which also tracked with the highest average Black incarcerated population over multiple observations across 1990-2022, which was also Texas. 
+
+I do need to do some more data cleaning, but I did not want to clean too much during this round of EDA in case I hated the data set. 
+
+Question 5
+What happens to states when I remove inferred data?
+``` {python}
+# created a new df of just raw data in 2022 by filtering the data_or_inferred column in the most recent year df to raw data
+raw_2022 = most_recent_year[
+    most_recent_year['data_or_inferred'] == 'raw data'
+]
+
+raw_2022['state'].value_counts()
+```
+
+``` {python}
+# cross tab of state and raw data vs inferred data to see the count of raw v inferred data break down of states in 2022 
+pd.crosstab(
+    most_recent_year['state'],
+    most_recent_year['data_or_inferred']
+)
+```
+
+Okay, so maybe I should not remove inferred data, if I do, I would basically be removing two states: Virginia and Rhode Island, which maybe is not helpful for my comparison. Also, this shows how uneven the current spread of data is, so it's a methodical question of if I should remove inferred counts or not. For now, I will not. This does provide a clearer direction for my EDA, instead of looking at raw counts and averages, I should explore proportions.
+
+
+
+Question 6
+Which states had the highest proportion of Black incarceration in 2022, on average
+``` {python}
+#making a copy because I will be directly manipulating the df 
+most_recent_year = most_recent_year.copy()
+
+# creating the black proportion column
+
+# accessing the incarcerated black column and incarcerated total and dividing to get the proportion
+most_recent_year['black_proportion'] = (most_recent_year['incarcerated_black'] /
+    most_recent_year['incarcerated_total']
+    ) 
+# creating a new df using the copy, grouping by state and filtered to black proportion and getting the mean of black proportion, then sorting it by highest to lowest
+black_proportion_2022 = most_recent_year.groupby('state')['black_proportion'].mean().sort_values(ascending = False)
+
+black_proportion_2022.head(10)
+
+```
+
+Oh wow, this changes the story a lot. When we take into account the states incarcerated population, the states that we saw earlier (Florida, Texas, California) are not in the top 10, including DC (which is not a state, I mentioned earlier on excluding it, but we'll save that for more formal data cleaning and based off of literature research since that's a methodology decision).
+
+What's interesting about this is that you can see both southern and northern states, so it isn't just southern states with higher incarcerated Black individuals.
+
+Question 7: How do white and black incarerated populations compare within each state
+
+``` {python}
+# same code, just replaced black with white
+most_recent_year = most_recent_year.copy()
+
+most_recent_year['white_proportion'] = (most_recent_year['incarcerated_white'] /
+    most_recent_year['incarcerated_total']
+    ) 
+
+# to compare race proportions in 2022, i grouped by state, and filtered to black and white proprotions to calculate the mean
+race_compare_2022 = most_recent_year.groupby('state')[['black_proportion', 'white_proportion']].mean()
+
+print(race_compare_2022)
+```
+
+Question 8:
+Within the top 10 states of Black incarceration, what are the incarceration rates for White individuals? 
+
+``` {python}
+# this lists the values from the top 10 states 
+race_compare_2022.loc[['District of Columbia',    
+'Maryland', 'Louisiana', 'New Jersey', 'South Carolina', 'Mississippi', 'Georgia', 'Delaware', 'Virginia', 'Illinois' ]]
+
+
+
+```
+
+Revealing results, if these proportions were similar then we'd see that there is not much of a difference, but a lot of these states have more than a .10 difference in incarcerated population proprtions which means there is a difference to investigate. We can see that this table is more southen heavy, but it  is interesting to see a Northern state up here such as New Jersey, and in my opinion, a culturally northern state such as Maryland. 
+
+Another interesting data point that actually might change my research question is DC ... there is such a big difference in the population that it could be worth it to specifically investigate that and why DC has such a disproportionate prison population, or maybe comparing the DMV in general, a region with very different black incarerated populations that could be worth exploring. 
+
+#Stage 3
+``` {python}
+incarcerated_pop_clean = incarerated_pop.copy()
+incarcerated_pop_clean["date"] = pd.to_datetime(incarcerated_pop_clean["date"])
+
+print(incarcerated_pop_clean["date"])
+
+incarcerated_pop_clean["year"] = incarcerated_pop_clean["date"].dt.year
+
+DMV_filter = ["District of Columbia", "Maryland", "Virginia"]
+
+incarcerated_filtered = incarcerated_pop_clean[incarcerated_pop_clean["state"].isin(DMV_filter)]
+```
+
+``` {python}
+incarcerated_pop_clean.shape
+
+incarcerated_filtered.shape
+incarcerated_filtered.head()
+
+incarcerated_filtered.groupby("state")["year"].agg(["min", "max"])
+incarcerated_filtered.groupby(["state", "year"]).size()
+
+
+
+```
+
+``` {python}
+incarcerated_filtered["black_proportion"] = (incarcerated_filtered["incarcerated_black"] / incarcerated_filtered["incarcerated_total"])
+
+incarcerated_filtered.head()
+
+incarcerated_filtered = incarcerated_filtered[incarcerated_filtered["year"].between(2013, 2021)]
+
+incar_annual = incarcerated_filtered.groupby(["state", "year"])["black_proportion"].agg(["mean", "count"])
+
+incar_annual.head()
+
+incar_annual = incar_annual.rename(columns = {"mean": "black_proportion"})
+```
+
+``` {python}
+# turn the index columns into regular columns so we can plot
+incar_annual = incar_annual.reset_index()
+
+incar_annual.head()
+
+import matplotlib.pyplot as plt
+import seaborn as sns 
+import matplotlib.ticker as mtick
+
+plt.figure(figsize = (10, 6))
+
+ax = sns.lineplot(data = incar_annual, x = "year", y = "black_proportion", hue = "state", marker = "o")
+ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+
+ax.set_title("Black Share of Incarcerated population within the DMV, 2013-2021")
+ax.set_xlabel("Year")
+ax.set_ylabel("Black Share of Incarcerated Population")
+plt.show()
+```
+
+
+``` {python}
+raw_data_only = incarcerated_filtered[
+    incarcerated_filtered["data_or_inferred"] == "raw data"]
+
+
+all_data_avg = incarcerated_filtered.groupby("state")["black_proportion"].mean()
+
+raw_data_avg = raw_data_only.groupby("state")["black_proportion"].mean()
+
+print(all_data_avg)
+print(raw_data_avg)
+
+#barely a difference overall, good to know
+
+# raw_incar_annual = raw_data_only.groupby(["state", "year"])["black_proportion"].agg(["mean", "count"])
+
+# raw_incar_annual = raw_incar_annual.rename(columns = {"mean": "black_proportion"})
+
+
+
+```
+
+# census data
+``` {python}
+
+census_data = pd.read_csv("projects/kaylas-deliverable3/_data/nhgis0001_ts_nominal_state.csv")
+
+census_data_dmv = census_data[census_data["STATE"].isin(DMV_filter)]
+
+# the years in the columns are weird / the ending year is the true year that the range represents, so i want to remove the first year and also turn it into an integer variable instead of a string variable 
+# also creating a new column as year so i can eventually join the data together
+
+census_data_dmv["year"] = census_data_dmv["YEAR"].str[-4:].astype(int)   
+    
+
+```
+
+
+``` {python}
+#         AA0AB:       Persons: Black or African American (single race)
+
+#         AV0AA:       Persons: Total
+
+
+census_data_dmv["black_population"] = (
+    census_data_dmv["AA0AB"] /
+    census_data_dmv["AV0AA"]
+)
+
+census_data_dmv[["STATE", "year", "AV0AA", "AA0AB", "black_population"]].head(10)
+
+census_data_dmv = census_data_dmv.rename(columns = {"STATE": "state"})
+
+dmv_data_merged = incar_annual.merge(
+    census_data_dmv[["state", "year", "black_population"]], 
+    on = ["state", "year"])
+
+dmv_data_merged.head(10)
+
+```
+
+``` {python}
+dmv_data_merged["overrepresentation_ratio"] = (
+    dmv_data_merged["black_proportion"] /
+    dmv_data_merged["black_population"]
+)
+
+dmv_data_merged["overrepresentation_ratio"].head(10)
+
+dmv_data_merged["black_proportion_gap"] = (dmv_data_merged["black_proportion"] - dmv_data_merged["black_population"])
+```
+
+
+``` {python}
+plt.figure(figsize = (10,6))
+
+sns.lineplot(data = dmv_data_merged, x = "year", y = "overrepresentation_ratio", hue = "state", marker = "o")
+
+plt.title("Black Incareration Overrepresentation in the DMV, 2013-2021")
+plt.xlabel("Year")
+plt.ylabel("Overrepresentation Ratio")
+plt.show()
+```
+
+``` {python}
+arrest_data = pd.read_csv(
+    here("projects/kaylas-deliverable3/_data/MPD_Adult_Arrests.csv"))
+
+arrest_data.shape
+arrest_data.head()
+arrest_data.columns
+
+arrest_data["dimension"].value_counts()
+
+dc_arrests = arrest_data[
+    arrest_data["YEAR"].between(2013,2021)
+].copy()
+
+dc_arrests["RACE"].value_counts()
+dc_arrests["CATEGORY"].value_counts()
+
+race_arrests = dc_arrests[
+    ~dc_arrests["RACE"].isin(["UNK", "UNKNOWN"])
+]
+
+race_arrests["CATEGORY"] = race_arrests["CATEGORY"].replace({
+    " rcotics": "Narcotics"
+})
+
+top_20 = race_arrests["CATEGORY"].value_counts().head(20).index
+
+
+
+
+top_race_arrests = race_arrests[
+    race_arrests["CATEGORY"].isin(top_20)
+]
+
+
+```
+
+``` {python}
+race_category_proportion = pd.crosstab(
+    top_race_arrests["CATEGORY"],
+    top_race_arrests["RACE"],
+    normalize = "index"
+)
+
+black_arrest_proportion = race_category_proportion["BLACK"].sort_values(ascending = False)
+
+black_arrest_proportion 
+
+```
+
+``` {python}
+plt.figure(figsize=(10,8))
+
+ax = sns.barplot(
+    x = black_arrest_proportion.values,
+    y = black_arrest_proportion.index
+)
+
+ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+
+plt.title("Black Proportion of D.C Adult Arrests by top 20 Categories, 2013-2021")
+plt.xlabel("Black Proportion of Arrests")
+plt.ylabel("Arrest Category")
+```
+# Write up: 
+From my first graph, which looks at incareration within the DMV and focused on the Black proportion of the incarcerated population from 2013 to 2021, we can see that D.C consistently had the highest Black incarcerataed population, with Maryland second, and Virginia having the lowest proportion in the region.However, this order changes once we take into account the racial makeup of each jurisdictions overall population. When I calculated the overrepresentation ratio, instead of D.C being the highest, Virginia was. Virginia has the highest ratio, at approximately three times its Black population, followed by Maryland at about 2.4 times, and D.C at around 1.9 times. This is improtant because it shows that having the highest percentage of Black incarcerated individuals in that jurisdiction does not necessarily mean that Black individuals are the most overrepresented in said place. D.C. has a much larger Black population overall than Virginia, so looking at the incarceration percentages alone made D.C. appear more extreme than it actually is relative to its population. What is also worth noting is how consistent these differences are across the same time period. From the graphs, we can see that there is some movement, but not enough for these places to switch positions. These results suggests to me that there are underlying, constant differeences between these legal systems across the years, not necessarily these results being driven by one particular odd year.
+
+Looking earlier in the criminal legal process through D.C.'s arrest data shows that the high Black representation seen in the incarerated population is also seen at the arrest stage. From the same years, 2013 to 2021, Black individuals made up the majority of arrests across every one of the 20 most common arrests. This majority ranged from about 79% for disorderly conduct to more than 95% for robbery. The fact that these proportions are pretty high across such different categories across the same time period is important because it suggets that Black representation in D.C.'s legal system is not necessarily being driven by one specifc of offense. This shows that although larger racial patterns exists throughout the arrest system, it is not equally strong across every type of crime which gives me more a more specific direction for understanding what may be producing these patterns and why. Rather than only asking whether Black indiviudals are overrepresented, I can also ask why that overrepresentation is greater for some types of arrests than others and what policies or systems that are contributing to those differences.
